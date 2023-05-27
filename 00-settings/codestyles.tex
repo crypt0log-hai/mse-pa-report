@@ -12,8 +12,22 @@
 %     full: \javafile{PATH}
 %     extract: \javafile[startline=x, endline=y]{PATH}
 
-\usemintedstyle{trac}
-\definecolor{mintedBg}{rgb}{0,0,0}
+\usemintedstyle{tango}
+% \usemintedstyle{manni}
+% \usemintedstyle{friendly}
+% set background color to light gray
+\definecolor{mintedBg}{rgb}{0.95,0.95,0.95}
+
+\setminted{
+	frame=single,
+	% framesep=6pt,
+	breaklines=true,
+	fontsize=\scriptsize,
+	linenos,
+	bgcolor=mintedBg,
+	tabsize=4,
+	numbersep=5pt
+	}
 
 % C
 \newminted{c}{
@@ -86,6 +100,15 @@
 	breaklines=true,
 	fontsize=\scriptsize,
 	linenos,
+}
+
+\newmintedfile{solidity}{
+	frame=single,
+	framesep=6pt,
+	breaklines=true,
+	fontsize=\scriptsize,
+	linenos,
+	bgcolor=mintedBg
 }
 
 % % Java

@@ -1,0 +1,27 @@
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{umlpackage}{ERC20}
+            \umlclass[type=class]{ERC20Contract}{
+                - \# name: string \\
+                - \# decimals: uint8 \\
+                - \# totalSupply: uint256 \\
+                - \# balances: mapping(address => uint256) \\
+                - \# allowances: mapping(address => mapping(address => uint256))
+            }{
+                + ERC20Contract(string \_name, uint8 \_decimals) \\
+                \umlvirt{+ totalSupply() : uint256} \\
+                \umlvirt{+ balanceOf(address \_owner) : uint256} \\
+                \umlvirt{+ transfer(address \_to, uint256 \_value) : bool} \\
+                \umlvirt{+ allowance(address \_owner, address \_spender) : uint256} \\
+                \umlvirt{+ approve(address \_spender, uint256 \_value) : bool} \\
+                \umlvirt{+ transferFrom(address \_from, address \_to, uint256 \_value) : bool} \\
+                \umlvirt{+ \# \_transfer(address \_from, address \_to, uint256 \_value)} \\
+                \umlvirt{+ \_approve(address \_owner, address \_spender, uint256 \_value)} \\
+                \umlvirt{+ \_mint(address \_account, uint256 \_amount)} \\
+                \umlvirt{+ \_burn(address \_account, uint256 \_amount)} \\
+                + \{event\} Transfer(address indexed \_from, address indexed \_to, uint256 \_value) \\
+                + \{event\} Approval(address indexed \_owner, address indexed \_spender, uint256 \_value)
+            }
+        \end{umlpackage}
+    \end{tikzpicture}
+\end{figure}

@@ -76,18 +76,19 @@
 \DeclareCaptionLabelFormat{hangout}{\llap{#1 #2\hspace{5mm}}}
 \captionsetup{
 	format=hang,
-	labelformat=hangout,
-	singlelinecheck=false,
-	font={it}
+	font=small,
+	labelfont=bf,
+	margin=5mm
 }
+
 
 % Caption with source for figure
 % TODO: improve this to use square brackets like the normal "caption"
 \newcommand*{\captionsource}[3]{%
 	\caption[{#1}]{%
 		#2%
-
-		\textbf{Source:} #3%
+		
+		\textbf{Source:}-#3%
 	}%
 }
 
@@ -153,7 +154,7 @@ bibencoding=auto
 
 % Colors & graphics
 % -----------------
-\usepackage[table]{xcolor}    % colors
+\usepackage[dvipsnames, table]{xcolor}    % colors
 \usepackage[pdftex]{graphicx} % graphics importing
 \graphicspath{{02-main/figures/}}
 \definecolor{gray80}{gray}{0.80}
@@ -162,6 +163,7 @@ bibencoding=auto
 % Code and syntax highlighting
 % ----------------------------
 \usepackage[newfloat]{minted}   % code highlighting
+\usepackage{listings}           % code highlighting
 
 % Typography
 % ----------
@@ -257,3 +259,6 @@ bibencoding=auto
 \usepackage[xindy,toc]{glossaries}
 \input{03-tail/glossary.tex}
 \makeglossaries
+
+
+
