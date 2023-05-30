@@ -1,0 +1,108 @@
+\begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.7, transform shape]
+        \begin{umlseqdiag}
+            \umlactor[class=Buyer, x=0]{Alice}
+            \umldatabase[class=Engine, x=5]{Platform}
+            \umldatabase[class=Contract, x=14]{Orderbook}
+            \umlactor[class=Seller, x=20]{Bob}
+
+            % Alice -> Platform
+
+
+
+            \begin{umlcall}[op={addBuy(100, 10)}, type=synchron, return=refresh buys, draw=RedOrange,fill=RedOrange!20,]{Alice}{Platform}
+                % Plateform -> Orderbook approve amount to transfer 100 * 10 = 1000 USDC
+                \begin{umlcall}[op={approve(Orderbook, 1000 USDC)}, type=synchron,return=approved, draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
+                \end{umlcall}
+                % Platform -> Orderbook
+                \begin{umlcall}[op={addBuy(100 UET, 10 USDC)}, type=synchron, return=orderNo, draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
+
+                    % Orderbook -> Orderbook update buys list
+                    \begin{umlcallself}[op={update Buys}, type=synchron,draw=ForestGreen,fill=ForestGreen!20]{Orderbook}
+                    \end{umlcallself}
+
+                    % Orderbook -> Platform emit BuyAdded event
+                    \begin{umlcall}[op={BuyAdded(1, 100, 10, Alice)}, type=synchron, draw=ForestGreen,fill=ForestGreen!20]{Orderbook}{Platform}
+                    \end{umlcall}
+
+
+                    % Platform -> Platform verify match sell order
+                    \begin{umlcallself}[op={verifyMatches}, type=synchron, return=false, dt=4, draw=RedOrange,fill=RedOrange!20]{Platform}
+                    \end{umlcallself}
+                \end{umlcall}
+                % Platform -> Platform watch event
+                \begin{umlcallself}[op={watchOrderbook}, type=synchron,return=BuyAdded, dt=3, draw=RedOrange,fill=RedOrange!20]{Platform}
+                \end{umlcallself}
+                % Platform -> bob refresh buys list
+                \begin{umlcall}[op={refresh buys}, type=synchron, draw=RedOrange,fill=RedOrange!20]{Platform}{Bob}
+                \end{umlcall}
+            \end{umlcall}
+
+            % Bob -> Platform add sell order 100 UET at 10 USDC
+            \begin{umlcall}[op={addSell(10, 100)}, type=synchron, dt=5,draw=RedOrange,fill=RedOrange!20]{Bob}{Platform}
+                % Plateform -> Orderbook approve amount to transfer 100 UET
+                \begin{umlcall}[op={approve(Orderbook, 100 UET)}, type=synchron, return=approved, draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
+
+
+                \end{umlcall}
+                % Platform -> Orderbook add sell order 100 UET at 10 USDC
+                \begin{umlcall}[op={addSell(10, 100)}, type=synchron, draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
+                    % Orderbook -> Orderbook update sells list
+                    \begin{umlcallself}[op={update sells}, type=synchron,draw=ForestGreen,fill=ForestGreen!20]{Orderbook}
+                    \end{umlcallself}
+                    % Orderbook -> Platform emit SellAdded event
+                    \begin{umlcall}[op={SellAdded(1, 10, 100, Bob)}, type=synchron, draw=ForestGreen,fill=ForestGreen!20]{Orderbook}{Platform}
+                    \end{umlcall}
+
+                    % Platform -> Platform verify match buy order
+                    \begin{umlcallself}[op={checkBuyMatch(100 UET, 10 USDC)}, type=synchron, return=true, dt=5, draw=RedOrange,fill=RedOrange!20]{Platform}
+                    \end{umlcallself}
+
+                    % Platform -> Orderbook call trade(1, 100, 10, 1), return amount, price, trader
+                    \begin{umlcall}[op={trade(1, 100, 10, 1)}, type=synchron, return={amount, price, trader},draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
+                        % Orderbook -> Orderbook verify condition
+                        \begin{umlcallself}[op={verifyCondition}, type=synchron, return=true,draw=ForestGreen,fill=ForestGreen!20]{Orderbook}
+                        \end{umlcallself}
+
+                        % Orderbook -> Bob transfer 1000 USDC from Alice to Bob with transferFrom
+                        \begin{umlcall}[op={transferFrom(Alice, Bob, 1000)}, type=synchron, dt=5,draw=ForestGreen,fill=ForestGreen!20]{Orderbook}{Bob}
+                        \end{umlcall}
+
+                        % Orderbook -> Alice transfer 100 UET from Bob to Alice with transfer
+                        \begin{umlcall}[op={transfer(Alice, 100)}, type=synchron, dt=5,draw=ForestGreen,fill=ForestGreen!20]{Orderbook}{Alice}
+                        \end{umlcall}
+
+                        % emit Trade event with amount, price, trader
+                        \begin{umlcall}[op={TradeAdd(100, 10, Bob)}, type=synchron,draw=ForestGreen,fill=ForestGreen!20]{Orderbook}{Platform}
+                        \end{umlcall}
+
+                        % Orderbook -> Orderbook update buys sells 
+                        \begin{umlcallself}[op={updateBuysSells}, type=synchron, draw=ForestGreen,fill=ForestGreen!20]{Orderbook}
+                        \end{umlcallself}
+                    \end{umlcall}
+                \end{umlcall}
+
+                % Platform -> Bob and Alice refresh buys and sells
+                \begin{umlcall}[op={refresh list}, type=synchron,draw=RedOrange,fill=RedOrange!20]{Platform}{Bob}
+                \end{umlcall}
+
+                \begin{umlcall}[op={refresh list}, type=synchron, draw=RedOrange,fill=RedOrange!20]{Platform}{Alice}
+                \end{umlcall}
+            \end{umlcall}
+
+            % Transaction indicator
+            \filldraw[draw=SkyBlue,fill=SkyBlue!20] (1.2,-25) circle (.2);
+            \node at (0,-25) {Transaction};
+
+            % Call indicator
+            \filldraw[draw=ForestGreen,fill=ForestGreen!20] (3,-25) circle (.2);
+            \node at (3.6,-25) {Call};
+
+            % Off-chain indicator
+            \filldraw[draw=RedOrange,fill=RedOrange!20] (6,-25) circle (.2);
+            \node at (7.2,-25) {Off-chain};
+        \end{umlseqdiag}
+    \end{tikzpicture}
+    \caption{Sequence diagram of the Orderbook smart contract.}
+    \label{fig:orderbook_seqdiag}
+\end{figure}

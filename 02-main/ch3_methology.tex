@@ -1,0 +1,824 @@
+\chapter{Methodology \& models}
+\label{ch:methodology}
+
+This chapter describes the methodology and models used to design and implement our international settlement system to achieve
+the objectives of this project, which focus on creating a decentralized and secure platform for token exchange. We use a systematic methodology
+and develop two proof-of-concept implementations. These proofs of concepts serve as concrete examples to demonstrate the functionalities and
+feasibility of our proposed solution.
+
+
+In section \ref{sec:wallet_fungible_tokens}, we present the first proof of concept, which is a development of a wallet for fungible tokens.
+This component enables users to securely store and manage their digital assets. By implementing a wallet, we aim to give
+to the users the ability to store, send, and receive tokens within our international settlement system, which is decentralized and secure.
+This proof of concept is the foundation for our overall project and provides the basis for developing the second proof of concept.
+
+
+After developing the first proof of concept, the section \ref{sec:dex} presents our second proof of concept, focusing on creating
+a decentralized exchange for token exchange.  This component is the core of our international settlement system, enabling users to
+exchange tokens transparently and securely as a decentralized marketplace. In developing our platform exchange, we aim to
+demonstrate the need for a reliable and secure environment where users can confidently engage in token exchange without
+intermediaries. This proof of concept demonstrates the functionalities of our international settlement system and serves as a concrete example
+of its potential to replace the current financial system.
+
+% ----------------------------------------------------------------------------- DONE
+
+\section{Wallet for fungible tokens}
+\label{sec:wallet_fungible_tokens}
+
+
+
+This section presents the design and implementation of our first proof of concept, which entails the development of a digital asset wallet
+ for our international settlement system. The digital asset is a fungible "Universal Exports Token" (UET).
+
+
+To simplify the design and implementation of the smart contract, we leverage the ERC20 standard \cite{eth_erc20} in conjunction with 
+the OpenZeppelin library \cite{openzeppelin_erc20}. This combination reduces the complexity involved in creating the smart contract. Once the smart contract is deployed, we build a blockchain application that serves as a digital asset wallet.
+The application is developed using the Truffle framework \cite{truffle} and the ReactJS framework \cite{react}. These frameworks enable
+ us to seamlessly connect to a local Ethereum network facilitated by Ganache-cli \cite{trufflesuite_ganachecli}. This local network 
+ provides a controlled environment for testing and interaction with the digital asset wallet.
+
+
+% ----------------------------------------------------------------------------- DONE
+
+
+\subsection{Token Smart Contract}
+
+For our digital asset, we create a smart contract in Solidity \cite{ethereum_solidity_doc} that implements
+the ERC20 standard \cite{eth_erc20} using the OpenZeppelin library \cite{openzeppelin_erc20}. We are using the
+latest version of the OpenZeppelin library, version 4.8.3, which is compatible with Solidity version 0.8.0
+in the writing of this report.
+
+
+
+
+The diagram in Figure \ref{fig:uetoken_classdiag} shows the class diagram of the \textit{UEToken} smart contract to have a better understanding of the design
+of the smart contract. The diagram shows the inheritance of the \textit{UEToken} smart contract from the \textit{ERC20Capped} and \textit{Ownable}
+smart contracts. The \textit{ERC20Capped} smart contract inherits from the \textit{ERC20} smart contract, which implements the ERC20 standard. This design choice allows us to leverage the features and security enhancements the OpenZeppelin library provides, ensuring a standardized implementation of the ERC20 standard and incorporating best practices for
+secure smart contract development.
+
+
+\input{02-main/figures/ch3/uetoken_classdiag.tex}
+
+
+Now that we have a better understanding of the design of the smart contract, we can see the implementation of the \textit{UEToken} smart contract in Listing \ref{lst:uetoken_contract}.
+The code snippet in Listing \ref{lst:uetoken_contract} represents the Solidity source code of our \textit{UEToken} smart contract.
+
+
+\input{02-main/figures/ch3/uetoken_class.tex}
+
+
+Line 3 of the code snippet in Listing \ref{lst:uetoken_contract} shows the Solidity version used for the smart contract. For the writing of this report,
+we are using the latest version of Solidity, version 0.8.0.
+
+
+Lines 5 and 6 illustrate the import of the \textit{ERC20Capped} and \textit{Ownable} smart contracts from the OpenZeppelin library. Let us dive
+into the \textit{ERC20Capped} smart contract to understand the design of the smart contract. In figure \ref{fig:erc20Capped_classdiag}, we can show
+the design of the \textit{ERC20Capped} smart contract in detail. As illustrated in Figure \ref{fig:uetoken_classdiag}, the \textit{ERC20Capped} smart contract
+inherits from the \textit{ERC20} smart contract. ERC20Capped is an abstract contract that inherits from the \textit{ERC20} smart contract and overrides
+the \texttt{\_mint} function to add a token supply cap by verifying that the total supply of tokens does not exceed the cap. The \textit{ERC20Capped} smart contract
+is designed to be inherited by other smart contracts, which is the case for our \textit{UEToken} smart contract.
+
+
+\input{02-main/figures/ch3/erc20capped_classdiag.tex}
+
+
+By extending the \texttt{ERC20Capped} contract, our token has a capped supply, meaning that the total supply of tokens cannot exceed a specified limit. By setting this cap on the supply of tokens, we control the maximum number of tokens that can never be created. It can be helpful in some use cases, such as creating a stablecoin, where the supply of tokens is backed by a reserve of assets, or in maintaining a fixed token economy. In our use case, we are not backing our token with a reserve of assets or fiat currency, but we are using the cap to limit the supply of tokens to a maximum number of tokens. In our use case, we set the cap to 1 billion tokens, the maximum number of tokens that can be minted. This provides us transparency and trust by incorporating this cap to token holders and users of our token. This can build trust and confidence in the token's ecosystem. The cap is set in the constructor of the \texttt{UEToken} smart contract, as shown in Listing \ref{lst:uetoken_contract}.
+The other smart contract we import from the OpenZeppelin library is the \texttt{Ownable} smart contract. We illustrate in Figure \ref{fig:ownable_classdiag} the detailed design of the OpenZeppelin \texttt{Ownable} smart contract.
+
+\input{02-main/figures/ch3/ownable_classdiag.tex}
+
+
+The \texttt{Ownable} contract implements a direct access control mechanism in our \texttt{UEToken} smart contract. Although, by incorporating the
+ \texttt{Ownable} smart contract into our token implementation, we can grant exclusive access to specific functions, such as the \texttt{mint} 
+ function used for creating new tokens, through inheritance from the \texttt{Ownable} contract, our token uses the \texttt{onlyOwner} modifier, 
+ which limits the execution of these functions to the contract owner. Consequently, only the owner who deployed the smart contract can execute 
+ the \texttt{mint} function, as it is annotated with the \texttt{onlyOwner} modifier. In our case, we aim to demonstrate the controlled minting 
+ of new tokens exclusively by the contract owner, preventing the possibility of unauthorized minting that could devalue the tokens.
+By default, the \texttt{Ownable} contract sets the contract owner in its constructor. However, the ownership can be transferred by calling the 
+\texttt{transferOwnership} function, offering flexibility in contract management when necessary. The \texttt{Ownable} contract is utilized in 
+scenarios where specific critical functions, such as the \texttt{mint} function, or administrative tasks must be restricted to the contract 
+owner.
+
+
+
+Lastly, in line 11 of the code snippet in Listing \ref{lst:uetoken_contract}, the name and symbol of the token are defined in the constructor using the \texttt{ERC20} constructor inherited from the \textit{ERC20Capped} contract. As explained in the previous chapter (Chapter \ref{ch:analysis}), specifically in Section \ref{sec:erc20}, the ERC20 token provides a standard interface for fungible tokens. Figure \ref{fig:uetoken_classdiag} illustrates the class diagram of our token smart contract. The \texttt{ERC20} constructor accepts the name and symbol of the token as parameters, which are set to \texttt{UEToken} and \texttt{UE}, respectively. Additionally, our constructor takes an \texttt{initialSupply} parameter, which sets the initial supply of tokens upon deployment of the smart contract.
+
+In line 12, we invoke the \texttt{\_mint} function from the \textit{ERC20Capped} contract to mint the initial supply of tokens. The \texttt{\_mint} function requires the address of the account to be minted (i.e., the contract owner) and the number of tokens to be minted (i.e., the initial supply of tokens). Furthermore, in our contract (line 15), we create the \texttt{mint} function, utilizing the \texttt{\_mint} private function from the \textit{ERC20Capped} contract. The \texttt{mint} function accepts the account's address to be minted and the number of tokens to be minted as parameters. The \texttt{onlyOwner} modifier is applied to the \texttt{mint} function to restrict its execution solely to the contract owner. Our platform aims to demonstrate the contract owner's minting of new tokens exclusively.
+
+In line 19, we override the \texttt{decimals} function from the \textit{ERC20} contract to set the number of decimals to 2. By default, the \texttt{decimals} function returns 18 decimals. However, for our token representing standard currency (e.g., Euro), we set the number of decimals to 2 to align with the typical decimal representation of currency. This adjustment ensures compatibility with financial calculations and representations. This completes the necessary code for our proof of concept token smart contract. While we could have included additional functionality, such as a \texttt{burn} function for burning tokens, our focus remains on the primary feature of our platform, which is the exchange of tokens between users. The complete OpenZeppelin code can be found in the GitHub repository \cite{openzeppelin_github}.
+
+Our fully functional code serves as a template for creating other ERC20 tokens. For instance, we can create a stablecoin called \texttt{USDC} (USD Coin) by modifying the name, symbol, and maximum supply of tokens. Additionally, the return value of the \texttt{decimals} function can be adjusted to set the desired number of decimal places for the token. The extensibility of our token smart contract is one of the advantages of adhering to the ERC20 standard. We can leverage our token smart contract as a foundation to create multiple tokens according to our requirements.
+
+
+% ----------------------------------------------------------------------------- DONE
+
+\subsection{Token Deployment}
+\label{subsec:token_deployment}
+
+To deploy our token smart contract, \textit{UEToken}, we can utilize Truffle \cite{truffle}, a development environment framework for Ethereum. Truffle offers a comprehensive suite of tools, including a development environment, testing framework, and asset pipeline for Ethereum. One of the critical features of Truffle is the ability to manage contract deployments through migrations.
+
+Migrations in Truffle are written in JavaScript and allow us to define the deployment phases of our contracts. Each migration file represents a separate deployment step, and Truffle ensures that migrations are executed in the correct order. This ensures that the contracts are deployed in a coordinated manner.
+
+Additionally, Truffle provides a console, a JavaScript runtime environment that exposes the Truffle environment to the command line. The console allows us to interact with our contracts and execute JavaScript commands against the deployed contracts.
+
+Before deploying our contract, we need to compile it to transform the Solidity code into bytecode that can be executed by the Ethereum Virtual Machine (EVM) 
+on the blockchain. Truffle simplifies the compilation process by providing a built-in compiler. The snippet in Listing \ref{lst:truffle_compile} shows the compilation
+of our \textit{UEToken} smart contract using the Truffle compiler :
+
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\footnotesize]{shell}
+$ truffle compile
+Compiling your contracts...
+===========================
+> Compiling ./contracts/UEToken.sol
+> Compiling @openzeppelin/contracts/access/Ownable.sol
+> Compiling @openzeppelin/contracts/token/ERC20/ERC20.sol
+> Compiling @openzeppelin/contracts/token/ERC20/IERC20.sol
+> Compiling @openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol
+> Compiling @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol
+> Compiling @openzeppelin/contracts/utils/Context.sol
+> Artifacts written to /truffle/build/contracts
+> Compiled successfully using:
+   - solc: 0.8.19+commit.7dd6d404.Emscripten.clang
+    \end{minted}
+    \caption{Compiling the \textit{UEToken} smart contract.}
+    \label{lst:truffle_compile}
+\end{listing}
+
+As we can see in Listing \ref{lst:truffle_compile}, Truffle searches for all Solidity files in the \textit{contracts} directory and dependencies in the \textit{node\_modules} directory.
+It compiles them according to the Solidity version specified in the \textit{truffle-config.js} file. Finally, the compiled contracts are written to the \textit{build/contracts} directory.
+
+
+Once the compilation is successful, we can proceed to the migration process of our contract. To begin the migration process, we must create a new migration
+file, such as \textit{uetoken\_migration.js}, in the Truffle migrations directory \textit{migrations}. The migration file name should be descriptive of the contract
+that is being deployed. Therefore, we name the migration file \textit{uetoken\_migration.js}, meaning we are deploying the \textit{UEToken} contract. In this file,
+we need to specify the deployment code for our token contract. The code for deploying our token contract is shown in Listing \ref{lst:truffle_uetoken_migration}.
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\footnotesize]{javascript}
+const UEToken = artifacts.require("UEToken");
+
+module.exports = function(_deployer) {
+  // Use deployer to state migration tasks.
+  const initialSupply = 1000000
+  _deployer.deploy(UEToken, initialSupply);
+};
+    \end{minted}
+    \caption{Deployment code for the \textit{UEToken} smart contract.}
+    \label{lst:truffle_uetoken_migration}
+\end{listing}
+
+In the above code, we use the \texttt{artifacts.require} function to import the \textit{UEToken} contract artifact. Then, in the migration
+deployment function, we specify the initial supply of tokens to mint and deploy the \textit{UEToken} contract using the \texttt{\_deployer.deploy} function.
+
+
+Once the migration file is created, we can deploy our token contract on a local test network. We use a local test network for our proof of concept
+because it is faster and cheaper to deploy our contract on a local test network than on the Ethereum mainnet or testnet such as Ropsten. 
+We use Ganache-CLI \cite{trufflesuite_ganachecli} for the local test network, simulating our private Ethereum blockchain. Ganache-CLI is a command-line version of Ganache, a personal blockchain
+for Ethereum development. Ganache-CLI is a fast and customizable blockchain emulator. It allows us to make calls to the blockchain without the cost of running an actual Ethereum node.
+
+
+We can start Ganache-CLI by running the following command:
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\footnotesize]{shell}
+$ ganache-cli -m "other strike boat weekend address want pink oval sister cry excuse myth" --chainId 1 --networkId 1337 
+
+Ganache CLI v6.12.2 (ganache-core: 2.13.2)
+
+Available Accounts
+==================
+(0) 0x216384d2f868d00ddC2907151F01b392aE0de155 (100 ETH)
+[snip]
+(9) 0x2d9d21e8ef8b0ebb4bcba4a9b79cd5d8dcfba7a7 (100 ETH)
+
+Private Keys
+==================
+(0) 0xb406b5f9eb128076dea028c9c149918a8811d193d93dfbde0489c316129d8f31
+[snip]
+(9) 0x94dec33a7e428dbd78a527fb9e9837645f2b488c040f54e90847d401a1008767
+    \end{minted}
+    \caption{Starting Ganache-CLI.}
+    \label{lst:ganache_cli}
+\end{listing}
+
+The output shown in Listing \ref{lst:ganache_cli} indicates that Ganache-CLI has successfully started a local Ethereum blockchain with ten accounts, each having a balance of 100 ETH. To ensure consistency, we utilize the \texttt{-m} argument to specify a mnemonic phrase for the blockchain. This allows us to start the identical blockchain with the same accounts whenever needed, which is handy for testing.
+Additionally, we use the \texttt{--chainId} argument to set the chain ID of the blockchain. The chain ID is used to identify the specific blockchain network, and in our case, we set it to one for testing purposes. This aligns with the configuration we use in Metamask \cite{metamask} to connect to our local blockchain. It is worth mentioning that when importing ERC20 tokens into Metamask, we need to specify the chain ID as 1 (Ethereum mainnet) due to a bug in Metamask \cite{metamask_bug_importerc20}.
+Furthermore, we utilize the \texttt{--networkId} argument to define the network ID of the blockchain. The network ID serves as an identifier for the blockchain network, and for testing purposes, we set it to 1337.
+
+To deploy our token contract on the Ganache-CLI blockchain, we need to execute the following command:
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{shell}
+$ truffle migrate --network ganache
+
+[snip]
+
+uetoken_migration.js
+===============================
+
+   Replacing 'UEToken'
+   -------------------
+   > transaction hash:    0xb79defe9f743e4592560da60dabee61e0a66ee017a4f90a0c1d20720061659e0
+   > Blocks: 0            Seconds: 0
+   > contract address:    0xd543BdeE60836107Ad2F70b2384a01827a61AF12
+   > block number:        2
+   > block timestamp:     1685382153
+   > account:             0x216384d2f868d00ddC2907151F01b392aE0de155
+   > balance:             99.93655312
+   > gas used:            1586172 (0x1833fc)
+   > gas price:           20 gwei
+   > value sent:          0 ETH
+   > total cost:          0.03172344 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.03172344 ETH
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.03172344 ETH
+    \end{minted}
+    \caption{Deploying the token contract on the ganache-cli blockchain.}
+    \label{lst:truffle_migrate}
+\end{listing}
+
+
+In Listing \ref{lst:truffle_migrate}, we can see that the command instructs Truffle to execute the migration script \texttt{uetoken\_migration.js}
+to the specified network. In this case, the network is \texttt{ganache}, defined in the \texttt{truffle-config.js} file, and is the local
+blockchain we started with Ganache-CLI. Upon successful deployment, we can see in Listing \ref{lst:truffle_migrate} that Truffle summarizes the migration
+process, including the transaction hash, the contract address, the block number, and transaction details. We can then interact with the deployed contract
+using the contract address.
+
+To call to explain one functionality of our token from Truffle to verify that it works as expected, we can run the following command:
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{shell}
+$ truffle console --network ganache
+
+truffle(ganache)> let instance = await UEToken.deployed()
+undefined
+truffle(ganache)> let accounts = await web3.eth.getAccounts()
+undefined
+truffle(ganache)> let name = await instance.name()
+undefined
+truffle(ganache)> name
+'UEToken'
+    \end{minted}
+    \caption{Calling the \texttt{name()} function our token contract from Truffle.}
+    \label{lst:truffle_balanceof}
+\end{listing}
+
+In Listing \ref{lst:truffle_balanceof}, we can see that we first get an instance of the deployed token contract, then we get the list of accounts
+from the blockchain, and finally, we call the \texttt{name()} function of the token contract. The result is the name of the token, which is \texttt{UEToken}. We can easily interact with the deployed token contract by leveraging Truffle's console.
+
+% ---------------------------------------------- DONE
+
+\subsection{Frontend Development}
+\label{subsec:wallet_frontend}
+
+Now that we have successfully deployed our token contract on the blockchain, the next step is to develop a front-end application that allows users to interact with the token contract. As this project is a proof-of-concept, we focus on creating a simple front-end application that demonstrates the core functionalities of our token. Therefore, this section provides an overview of the main components of our front-end application and how we interact with the token contract from the front end.
+
+For the frontend development, we utilize React \cite{react}, a widely-used JavaScript library for building user interfaces. Additionally, we use the Web3.js \cite{eth_web3js} library (refer to Section \ref{sec:ch2_web3}), which provides a collection of modules that enable interaction with Ethereum and our deployed token contract.
+
+Web3.js is a package that can be installed using the Node Package Manager (NPM). It allows us to connect to an Ethereum network and interact with our deployed token contract within our front-end application. In addition, the library offers various modules to handle different tasks, such as contract instantiation, function calls, 
+and even listening.
+
+We first connect with our web3 instance to initiate our development process. In our case, we rely on Metamask\footnote{Metamask is a browser extension that enables us to connect to an Ethereum network directly from our browser.} to connect to our local blockchain. Metamask injects a global variable called \texttt{web3} into the browser's window object.
+
+We initialize our web3 instance by verifying the installation and unlocking of Metamask. Once confirmed, we instantiate our web3 instance using the \texttt{Web3} constructor. Below is a code snippet demonstrating our web3 initialization process:
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{javascript}
+import Web3 from 'web3';
+// Code snipped for brevity
+mount = async () => {
+var account;
+    if (window.ethereum) {
+        try {
+            await window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts) => {
+            account = accounts[0];
+            this.web3.eth.defaultAccount = account;
+            // Code snipped for brevity
+            erc20Tokens.forEach((token) => {
+                let erc20Token = new this.web3.eth.Contract(token.abi, token.address);
+                // Call any function to get the token name
+                erc20Token.methods.name().call().then((name) => {
+                app.setState({
+                    tokens: [...app.state.tokens, { ...token, name }]
+                    });
+                });
+            });
+        });
+        } catch (error) {
+            console.error('Error connecting to web3:', error);
+        }
+        const ethereum = window.ethereum;
+        window.web3 = new Web3(ethereum);
+        this.web3 = new Web3(ethereum);
+    } else {
+        console.log('No ethereum browser detected');
+    }
+}
+    \end{minted}
+    \caption{Web3 initialization.}
+    \label{lst:web3_init}
+\end{listing}
+
+In Listing \ref{lst:web3_init}, we demonstrate how to manage the web3 instance and the connected account state in our React component. Upon
+refreshing the browser, we utilize the \texttt{mount()} lifecycle method to handle this process. Firstly, we check for the availability
+of MetaMask and request the user's accounts. Once connected, we create a new instance of the \texttt{Web3} object and set the default account to the first account in the list provided by MetaMask.
+
+
+To interact with our deployed token contract, we leverage the web3 instance. For instance, we can call various functions of our token contract, such as
+\texttt{name()}, \texttt{symbol()}, \texttt{totalSupply()}, and \texttt{balanceOf()}. This involves accessing the \texttt{methods} object of our
+token contract instance and invoking the respective functions. By retrieving the returned values, such as the token name (\texttt{UEToken}), symbol,
+total supply, and balance, we can update the state of our React component accordingly.
+
+
+To obtain an instance of our token contract, we must provide the token contract's ABI and address to the \texttt{Contract} constructor of the
+\texttt{web3.eth} object. The ABI is obtained from the JSON file located in the \texttt{build/contracts} directory, as demonstrated in the
+deployment section (Section \ref{subsec:token_deployment}). It serves as a blueprint for Web3, enabling it to interact correctly with our token
+contract by understanding its functions and events.
+
+
+
+
+In our proof-of-concept wallet platform, we can list all the user's tokens. We need to supply the respective ABI and
+contract addresses for each token. Our frontend application, implemented as a React component, renders an array of tokens, each with its own
+instantiated \texttt{Contract} object. This allows us to call the \texttt{balanceOf()} function of the token contract, retrieving the user's
+balance for that particular token. Additionally, buttons associated with each token enable users to perform actions such as transferring tokens,
+approving transfers, and minting new tokens.
+
+
+For example, to call the \texttt{transfer()} function, the following code snippet can be utilized:
+
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{javascript}
+Transfer = async () => {
+    // Code snipped for brevity
+    tokenContract = new this.web3.eth.Contract(this.state.transferDetail20.abi, this.state.transferDetail20.address);
+    var amount = this.state.fields.amount * (Math.pow(10, this.state.transferDetail20.decimal));
+    try {
+        await tokenContract.methods.transfer(recipient, amount).send({ from: this.web3.eth.defaultAccount });
+        console.log('Transfer successful!');
+    } catch (error) {
+        console.error('Error transferring tokens:', error);
+    }
+}
+    \end{minted}
+    \caption{Calling the \texttt{transfer()} function of the web3 token contract instance.}
+    \label{lst:transfer}
+\end{listing}
+
+
+In the provided code snippet (Listing \ref{lst:transfer}), we begin by creating a new instance of the \texttt{Contract} object, which requires the ABI (Application Binary Interface) and address of the token contract. Then, to ensure the accuracy of the transfer amount, we multiply the user-entered amount by the decimal value of the token (as described in Equation \ref{eq:decimals}).
+Next, we call the \texttt{transfer()} function of the token contract, passing the recipient's address and the desired transfer amount as arguments. This function call returns a JavaScript promise, allowing us to handle the response using the \texttt{then()} function. Through this, we can update the state of our React component accordingly. The exact process applies to other functions, such as \texttt{approve()} and \texttt{mint()}, with their respective arguments.
+
+
+% ---------------------------------------------- DONE
+
+
+\section{Decentralized Exchange (DEX)}
+\label{sec:dex}
+
+This section describes our second proof-of-concept application, a decentralized exchange (DEX) platform responsible for trading ERC20 tokens,
+as mentioned in the objectives of this project. Traditionally, trading exchanges are centralized, meaning that they are owned and operated by
+an authority for facilitating the trading between a buyer and a seller. This authority is responsible for posting a buy or sell order on behalf
+of the user where the order is visible to other users of the exchange. Once a match is found, the exchange executes the trade and updates the
+users' balances accordingly. This process is called an order book, where the exchange maintains a list of buy and sell orders
+submitted by users. Traders can submit orders to the order book, and the exchange will match the orders based on the price and quantity of the
+order. In the case of a match, the exchange will execute the trade and update the users' balances accordingly. In our proof-of-concept, we
+implement a decentralized version of this process, meaning we remove the centralized authority and allow users to interact directly with each other
+via a smart contract replacing the order book. In our use case, we implement a simple order book that allows traders to trade our ERC20 token
+\texttt{UEToken} for a stablecoin\footnote{A stablecoin is a cryptocurrency that is pegged to a stable asset such as gold or fiat currencies.}
+, \texttt{USDC}\footnote{USDC is a stablecoin pegged to the US dollar, meaning that 1 USDC is always equal to 1 USD. \url{https://en.wikipedia.org/wiki/USD_Coin} }
+which are also an ERC20 token.
+
+
+In our project, we are building the following components:
+
+% ---------------------------------------------- DONE
+
+
+\subsubsection{Two ERC20 tokens}
+
+
+The UEToken is the token we created in the previous section and represents
+the base asset\footnote{The base asset is the asset that is being traded.} of our exchange. The USDC token is a stablecoin that is pegged to
+the US dollar and represents the counter asset\footnote{The counter asset is the asset that is being traded against.} of our exchange. Due we
+are using our private Ethereum network, we need to simulate the USDC token. To do so, we create a new ERC20 token contract and mint 1000 USDC
+tokens, for example. In a real case, the USDC token is issued by a centralized authority, Circle Internet Financial Ltd. \cite{usdc}. If
+we were to deploy our exchange on the Ethereum mainnet, we would use the real USDC token with the address \texttt{0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48}
+\footnote{The USDC token contract address on the Ethereum mainnet. \url{https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48}}.
+
+
+\subsubsection{Order book smart contract}
+
+
+The order book smart contract matches buy and sell orders submitted by traders.
+The order book is implemented as a smart contract deployed on the Ethereum blockchain. The order book contract keeps track
+of the buy and sell orders submitted by traders and allows traders to view the order book and submit orders against an existing order stored
+in the contract. The order book contract is implemented in Solidity and is deployed on the local Ethereum blockchain using the Truffle framework with
+the help of the Ganache CLI.
+
+
+\subsubsection{Trading platform}
+
+
+The trading platform is a web application that allows traders to interact with the order book smart contract. It shows
+users their balances of the two tokens, base token and counter token, and allows them to submit buy and sell orders to the order book. When a new order
+is submitted, an engine verifies if the new request matches an existing order in the order book. If a match is found, the trade is
+executed, and the users' balances are updated accordingly by invoking the order book smart contract trade function. On the other hand, if no match is found, the order
+is added to the order book and is visible to other traders by calling the add order function of the order book smart contract. The trading platform is
+implemented using the React JavaScript framework and the web3.js library for interacting with the Ethereum blockchain.
+
+
+\subsection{Design of the Order Book Smart Contract}
+
+
+The order book smart contract is designed to be as simple as possible, facilitating the trading of ERC20 tokens between buyers and sellers. It
+keeps track of the buy and sell orders and executes the trades when conditions are met. The design consists of the following components
+as shown in the class diagram in Figure \ref{fig:orderbook_classdiag}.
+
+
+\input{02-main/figures/ch3/orderbook_classdiag.tex}
+
+
+
+
+
+\subsubsection{Struct Order}
+
+
+The \texttt{Order} struct is used for an individual buy or sell order. It contains the following fields:
+\begin{itemize}
+   \item \textbf{amount}: The number of tokens bought or sold.
+   \item \textbf{price}: The price at which the tokens are bought or sold.
+   \item \textbf{timestamp}: When the order was created.
+   \item \textbf{trader}: The trader's address who placed the order.
+   \item \textbf{status}: The status of the order, represented as a two-byte value (e.g., "A" for active, "T" for traded).
+\end{itemize}
+
+
+\subsubsection{buys and sells Arrays}
+
+
+The \texttt{buys} and \texttt{sells} arrays are used to store the buy and sell orders, respectively. Each array stores instances
+of the \texttt{Order} struct, representing the active orders in the order book.
+
+
+\subsubsection{erc20Base and erc20Counter Contracts}
+
+
+The \texttt{erc20Base} and \texttt{erc20Counter} contracts represent the ERC20 token being traded in the order book. They are
+instances of the ERC20 contract from the OpenZeppelin library \cite{openzeppelin_erc20}. The \texttt{erc20Base} contract represents
+the base asset while the \texttt{erc20Counter} contract represents the counter asset. Our order book smart contract is designed
+for only two tokens at a time, meaning that the base and counter assets are fixed. In our use case, the base asset is the \texttt{UEToken}
+ERC20 token while the counter asset is the \texttt{USDC} ERC20 token.
+
+
+\subsubsection{Constructor}
+
+
+The constructor of the order book smart contract is responsible for initializing the \texttt{erc20Base} and \texttt{erc20Counter}
+contracts. It takes as parameters the addresses of the two contracts and initializes the two contracts, and retrieves the decimals
+places for each token. The decimal places convert the tokens from the base unit to the token unit. For example,
+the \texttt{UEToken} ERC20 token has two decimals places, meaning that 1 UEToken is equal to 100 base units (refer to Equation \ref{eq:decimals}
+for further clarification).
+
+\subsubsection{Events}
+
+
+The contract defines three events:
+
+
+\begin{itemize}
+   \item \textbf{BuyAdded}: Triggered when a buy order is added to the order book. It includes the order number, amount, price, and trader's address.
+   \item \textbf{SellAdded}: Triggered when a sell order is added to the order book. It includes the order number, amount, price, and trader's address.
+   \item \textbf{TradeAdd}: Triggered when a trade is executed between a buy and sell order. It includes the order number, amount, price, maker's address, and taker's address.
+\end{itemize}
+
+
+\subsubsection{addBuy Function}
+
+
+The \texttt{addBuy} function allows a trader to add a buy order to the order book. It takes as parameters the amount and the desired buy price.
+The function transfers the total amount of tokens to the order from the trader's account  to the order book contract using the \texttt{transferFrom}
+method of the \texttt{erc20Base} contract. It then adds the order to the \texttt{buys} array and emits the \texttt{BuyAdded} event.
+
+
+\subsubsection{addSell Function}
+
+
+The \texttt{addSell} function allows a trader to add a sell order to the order book. It takes as parameters the amount and the desired sell price.
+The function transfers the total amount of tokens to the order from the trader's account  to the order book contract using the \texttt{transferFrom}
+method of the \texttt{erc20Counter} contract. It then adds the order to the \texttt{sells} array and emits the \texttt{SellAdded} event.
+
+
+\subsubsection{getLengthBuy and getLengthSell Functions}
+
+
+The \texttt{getLengthBuy} and \texttt{getLengthSell} functions return the length of the \texttt{buys} and \texttt{sells} arrays, respectively.
+
+
+\subsubsection{getBuy and getSell Functions}
+
+
+The \texttt{getBuy} and \texttt{getSell} functions allow users to view the details of a specific buy or sell order. They take the order number as a parameter and return the amount, price, timestamp, trader's address, and order status.
+
+
+\subsubsection{trade Function}
+
+
+The \texttt{trade} function executes a trade between a buy and sell order. It takes as parameters the order number, amount, trade price, and trade type (e.g., "B" for buy, "S" for sell). The function verifies the order number and trade parameters and then applies the trade whether the trade is valid or not.
+If the trade is valid, the function transfers the tokens between the trader and the counterparty using the \texttt{transfer} and \texttt{transferFrom} methods of the \texttt{erc20Base} and \texttt{erc20Counter} contracts, respectively. It updates the status of the order, emits the \texttt{TradeAdd} event, and returns
+the order number, amount, and trader's address of the trade.
+
+
+\texttt{transferForm} is used when transferring tokens from the \texttt{msg.sender} (i.e.,
+the caller of the function) to the counterparty of the trade, which can be either the buyer or seller, depending on the trade type.
+\texttt{transferForm} is used when an external account initiates the token transfer and requires approval from
+the account holder (i.e., the \texttt{msg.sender}). In this case, the \texttt{msg.sender} needs to approve the Orderbook contract to spend a certain amount of tokens
+on the token contract before initiating the \texttt{trade} function. Once the approval is granted, the Orderbook contract can execute the \texttt{transferFrom} function
+method to transfer the tokens from the \texttt{msg.sender}'s account to the counterparty's account. This ensures that the token transfer is authorized and
+controlled by the account holder, preventing the Orderbook contract from transferring tokens without the account holder's permission.
+
+
+\texttt{transfer} is used when transferring tokens from the Orderbook contract to the \texttt{msg.sender}, which can be either the buyer or seller receiving
+their respective tokens after successfully executing the trade. In this case, the Orderbook contract acts as the account holder and can transfer tokens to the
+\texttt{msg.sender} without requiring any approval. Since the Orderbook contract holds the tokens in its balance, it can use the \texttt{transfer} method to
+send the tokens to the respective party.
+
+\subsubsection{decommission Function}
+
+
+The \texttt{decommission} function allows the contract owner to decommission the order book smart contract. It transfers any remaining tokens in the active
+orders back to the respective traders using the \texttt{transfer} method of the \texttt{erc20Base} and \texttt{erc20Counter} contracts. It then clears
+the \texttt{buys} and \texttt{sells} arrays, resetting the order book to its initial state. Only the contract owner can call this function with the
+\texttt{onlyOwner} modifier.
+
+
+\subsubsection{decommissionUser Function}
+
+
+The \texttt{decommissionUser} function allows a trader to decommission all of his or her active orders in the order book. First, check if the trader has active orders in the order book.
+If the trader has active orders, the function transfers any remaining tokens in the active orders back to the respective trader using the \texttt{transfer} method
+of the \texttt{erc20Base} and \texttt{erc20Counter} contracts. It then clears the transferred orders from the \texttt{buys} and \texttt{sells} arrays. It is helpful
+if a trader wants to decommission all active orders in the order book without waiting to validate the order book contract owner.
+
+
+The order book smart contract provides a reliable and efficient way to trade ERC20 tokens, ensuring that the trades are executed fairly and transparently without
+the need for a trusted third party.
+
+
+\subsection{Migration of the order book smart contract}
+
+
+To deploy and migrate the Orderbook smart contract to a local blockchain, we use Truffle's migration feature, as explained in Section \ref{subsec:token_deployment}.
+Before deploying the Orderbook smart contract, we need to deploy the \texttt{UEToken} and \texttt{USDC} ERC20 tokens to the local blockchain, as explained in
+Section \ref{subsec:token_deployment}. We need this to have our local blockchain, such as Ganache, have the tokens for trading. Once the tokens are
+deployed, we can deploy the Orderbook smart contract using the following steps.
+
+
+\subsubsection{Deployment Script}
+
+
+In the \textit{migrations} folder, we create a new file called \textit{1\_initial\_migration.js}. This file is responsible for deploying smart token contracts.
+Then we create a new file called \textit{2\_deploy\_orderbook.js} to deploy the Orderbook smart contract in the same folder to handle the deployment of
+the Orderbook smart contract.
+
+
+
+
+\subsubsection{Migration scripts}
+
+
+In the deployment script, we first import the \texttt{UEToken} and \texttt{USDC} smart contracts artifacts from the \textit{build/contracts} folder. These contracts
+are generated by Truffle when compiling the smart contracts. Then we need to also get their respective addresses from the summary of the deployment of the tokens.
+The development script is shown in Listing \ref{lst:orderbook_migration}.
+
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{javascript}
+const Orderbook = artifacts.require('Orderbook');
+
+module.exports = function (_deployer) {
+  const baseTokenAddress = '0x...'; // Address of the base token ERC20 contract
+  const counterTokenAddress = '0x...'; // Address of the counter token ERC20 contract
+  _deployer.deploy(Orderbook, baseTokenAddress, counterTokenAddress);
+};
+     \end{minted}
+    \caption{Orderbook migration script for development.}
+    \label{lst:orderbook_migration}
+\end{listing}
+
+\subsubsection{Deployment}
+
+
+Before deploying the Orderbook smart contract, we must ensure that the network configuration in the \textit{truffle-config.js} file is set to the local blockchain
+network. Then we can run the migration command to display the Orderbook contract. In the command line, we run the following command \mintinline{shell}{truffle migrate --reset},
+
+
+\subsubsection{Deployment on the Rinkeby testnet}
+
+
+To deploy the Orderbook smart contract on the Rinkeby testnet, we need to ensure that the network configuration in the \textit{truffle-config.js} file is set to the
+Rinkeby testnet. Then we can run the migration command to display the Orderbook contract. In the command line, we run the following command \mintinline{shell}{truffle migrate --reset --network rinkeby}.
+
+
+\subsubsection{Verify the deployment}
+
+
+After successfully migrating the Orderbook smart contract, Truffle generates a summary of the deployment, which includes the addresses of the deployed contracts on
+the local blockchain.
+
+
+\subsubsection{Interacting with the order book smart contract}
+
+
+We can use the Truffle console to interact with the Orderbook smart contract. In the command line, we run the following command \mintinline{shell}{truffle console}.
+This will open the Truffle console, which allows us to interact with the deployed smart contracts. We can then use the \mintinline{shell}{Orderbook.deployed()} command
+to get the deployed Orderbook smart contract instance. We can then use the instance to call the functions of the Orderbook smart contract. For example, we can call
+the \texttt{addBuy} function to place a buy order in the order book. The following code snippet in Listing \ref{lst:orderbook_buy} shows how to place a buy order in
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{javascript}
+const orderbook = await Orderbook.deployed();
+const amountUEToken = web3.utils.toWei('100', 'ether');
+const amountBuyPrice = web3.utils.toWei('0.0001', 'ether');
+await orderbook.addBuy(amountUEToken, amountBuyPrice);
+const buy = await orderbook.getBuy(orderbook.getBuyLength() - 1);
+console.log(buy);
+        \end{minted}
+    \caption{Placing a buy order in the order book with Truffle console.}
+    \label{lst:orderbook_buy}
+\end{listing}
+
+
+\subsection{Implementation of the trading platform}
+
+
+The same as in  Section \ref{subsec:wallet_frontend}, we use React to implement the trading platform. In this section, we explain the main components of the trading
+platform and how they interact with the Orderbook smart contract without explaining the implementation details. The main components of the trading platform are
+the following:
+
+
+\subsubsection{Event listener}
+
+
+The order book is displayed in a table with two columns, one for the buy orders and one for the sell orders. Each row of the table represents an order in the order book.
+The order book is updated in real-time using the \texttt{getSell} and \texttt{getBuy} functions of the Orderbook smart contract. When populating the order \texttt{buys} and
+\texttt{sells} arrays, an event is emitted by the Orderbook smart contract. We can listen to these events in our trading platform to update the order book in real-time with
+new orders. The following code snippet shows how to listen to, e.g., the \texttt{BuyOrder} event emitted by the Orderbook smart contract can be caught in the trading platform.
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{javascript}
+watchOrderbook = async () => {
+    await this.watchweb3.Contract(this.orderbookABI, orderbook.address).then((contract) => {
+        // Update the order book with the new buy ordersu
+    });
+}
+    \end{minted}
+    \caption{Listening to the Orderbook smart contract events in the trading platform.}
+    \label{lst:watch_orderbook}
+\end{listing}
+
+In Listing \ref{lst:watch_orderbook}, we use the \texttt{watchweb3} library to listen to the events emitted by the Orderbook smart contract. Then, when a new event is
+emitted, we update the order book with the new orders and refresh the table to display the new orders.
+
+
+\subsubsection{Buy and sell orders}
+
+
+The following method in our trading platform is the ability to place buy and sell orders. To place a buy order, call the \texttt{addBuy} function of the Orderbook
+smart contract. The following code snippet shows how to place a buy order in the order book.
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{javascript}
+addBuy = async () => {
+    const app = this;
+    const usdcAmount = this.state.fields.buyAmount
+    const amountBuyPrice = this.state.fields.buyPrice;
+    const approvalAmount = usdcAmount * amountBuyPrice;
+    const usdcContract = await this.web3.eth.Contract(app.USDC.abi, app.USDC.address);
+    const uetContract = await this.web3.eth.Contract(app.UET.abi, app.UET.address);
+    await this.web3.eth.Contract(app.orderbookABI.abi, app.orderbookABI.address).then(async (contract) => {
+        // check if the sells array is empty
+        if(this.state.sells.length === 0)
+        {
+            await usdcContract.methods.approve(app.orderbookABI.address, approvalAmount* 10 ** 2).send({ from: app.web3.eth.defaultAccount }).then(async (receipt) => {
+                await contract.methods.addBuy(usdcAmount, amountBuyPrice).send({ from: app.web3.eth.defaultAccount }).then(async (receipt) => {
+                    // Update the order book with the new buy orders
+                });
+            });
+        } else {
+            // Look for a matching sell order
+            // Execute the trade
+        }
+    });
+}
+    \end{minted}
+    \caption{Placing a buy order in the order book from the trading platform.}
+    \label{lst:place_buy_order}
+\end{listing}
+
+In Listing \ref{lst:place_buy_order}, we start by getting the amount of UEToken and the buy price from the state of the trading platform. Then we call the
+\texttt{addBuy} function of the Orderbook smart contract with the amount of UEToken and the buy price as parameters. We also specify the account that is
+placing the buy order. Then, we check if the \texttt{sells} array is empty, meaning there are no sell orders in the order book. If the \texttt{sells}
+is empty, then we skip the next step, looking for a matching sell order. We look for a matching sell order if the \texttt{sells} array is not empty. If we find a matching sell order, then we execute the trade.
+
+
+For the empty, we first use the \texttt{approve} function of the USDC smart contract to approve the Orderbook smart contract to transfer the amount of USDC
+specified in the buy order that is worth the same as the order amount from the user's account.  The approval amount is multiplied by the decimals of the USDC, which is 2. Then, to receive the successful transaction receipt, we call the \texttt{addBuy} function of the Orderbook smart contract to place the buy order
+in the order book. Finally, with our \texttt{watchOrderbook} method, we update the order book with the new buy orders.
+
+
+\subsubsection{Matching buy and sell orders}
+
+
+If the \texttt{sells} array is not empty, then we need to look for a matching sell order. To do so, we loop through the \texttt{sells} array and check if
+the amount of UEToken of the sell order is greater than or equal to the amount of UEToken of the buy order. If the amount of UEToken of the sell order
+is greater than or equal to the amount of UEToken of the buy order, then we execute the trade. The following code snippet shows how to execute the trade.
+
+\begin{listing}[H]
+    \begin{minted}[fontsize=\scriptsize]{javascript}
+// approve the Orderbook smart contract to transfer the amount of UEToken specified in the buy order from user's account
+await uetContract.methods.approve(app.orderbookABI.address, amountUEToken * 10 ** 18).send({ from: app.web3.eth.defaultAccount }).then(async (receipt) => {
+    // look for a matching sell order
+    while ( i < app.state.sells.length && amountUEToken > 0) {
+        let price = app.state.sells[i].price;
+        let sellAmount = app.state.sells[i].amount;
+        if (sellAmount >= amountUEToken) {
+            await contract.methods.trade(app.state.sells[i].orderNo, amountUEToken, price, 1).send({ from: app.web3.eth.defaultAccount }).then(async (receipt) => {
+                // Update the order book with the new buy orders
+            });
+            amountUEToken = 0;
+        } else {
+            await contract.methods.trade(app.state.sells[i].orderNo, sellAmount, price, 1).send({ from: app.web3.eth.defaultAccount }).then(async (receipt) => {
+                // Update the order book with the new buy orders
+            });
+            amountUEToken -= sellAmount;
+        }
+        i++;
+    }
+});
+    \end{minted}
+    \caption{Executing a trade from the trading platform.}
+    \label{lst:execute_trade}
+\end{listing}
+
+
+In listing \ref{lst:execute_trade}, in each iteration of the while loop, we check if the amount of UEToken of the buy order can fill the amount of UEToken of the sell order. If the amount of UEToken of the sell order can be filled by the amount of UEToken of the buy order, then we execute the
+trade by calling the \texttt{trade} function of the Orderbook smart contract. Otherwise, we partially fill the sell order by calling the \texttt{trade}
+the function of the Orderbook smart contract until the amount of UEToken of the buy order is filled, then we stop the while loop.
+
+
+Here, we describe adding a new buy order to the order book. The process of adding a new sell order to the order book is similar to the
+process of adding a new buy order to the order book. The only difference is that we call the \texttt{addSell} function of the Orderbook smart contract
+instead of the \texttt{addBuy} function of the Orderbook smart contract. We change all the \texttt{buy} keywords to \texttt{sell} keywords in the code
+snippet in Listing \ref{lst:place_buy_order} and Listing \ref{lst:execute_trade}.
+
+
+\subsection{Scenario}
+
+
+In this section, we describe a scenario of how the trading platform interacts with the Orderbook smart contract. The scenario is illustrated in Figure
+\ref{fig:orderbook_seqdiag}. The sequence diagram shows the interaction between the Buyer (Alice), the Seller (Bob), the Platform, and
+the Orderbook smart contract while placing a buy order and executing a trade. The following steps describe the scenario as follows:
+
+
+\begin{enumerate}
+   \item Alice, the buyer, initiates a buy order by calling the \texttt{addBuy} function on the platform. She specifies the amount of
+   100 UET and the buy price of 10 USDC per UEToken.
+   \item The platform receives the buy order from Alice and forwards the buy order to the Orderbook smart contract by calling the \texttt{approve} function
+   of the USDC smart contract to approve the Orderbook smart contract to transfer the amount of 1000 USDC from Alice's account. This approval ensures that the Orderbook can
+   transfer the tokens on behalf of Alice when a matching sell order is found.
+   Once the approval is successful, the platform calls the \texttt{addBuy} function of the Orderbook smart contract to place the buy order in the order book.
+   \item The Orderbook smart contract adds the buy order to its buys list. It updates the internal state and emits the `BuyAdded` event with the order details (order number, amount, price, and trader).
+   \item The Platform verifies if there are any matching sell orders in the order book. In this case, there are no immediate matches.
+   \item The platform calls the \texttt{watchOrderbook} function of the Orderbook smart contract to update the order book with the new buy order. It receives
+   the event \texttt{BuyAdded} from the Orderbook smart contract and updates the order book with the new buy order to display the order book to Alice and Bob.
+   \item Bob, the seller, initiates a sell order by calling the \texttt{addSell} function on the platform. He specifies the amount of 100 UET and the selling price of 10 USDC per UEToken.
+   \item The platform receives the sell order from Bob and forwards the sell order to the Orderbook smart contract by calling the \texttt{approve} function
+   of the UEToken smart contract to approve the Orderbook smart contract to transfer the amount of 100 UET from Bob's account. This approval ensures that the Orderbook can
+   transfer the tokens on behalf of Bob when a matching buy order is found.
+   \item Once the approval is successful, the platform calls the \texttt{addSell} function of the Orderbook smart contract to place the sell order in the order book.
+   It provides the amount of 100 UET and the selling price of 10 USDC per UEToken.
+   \item The Orderbook smart contract adds the sell order to its sales list. It updates the internal state and emits the \texttt{SellAdded} event with the order details (order number, amount, price, and trader).
+   \item The Platform checks for matching buy orders in the order book. In this case, there is a match with Alice's buy order.
+   \item The Platform initiates the trade by calling the \texttt{trade} function on the Orderbook smart contract. It provides the necessary parameters (order number, amount, price, and trade type).
+   \item The Orderbook smart contract verifies the trade conditions and executes the trade. It transfers the required tokens between the Buyer (Alice) and the Seller (Bob) using the \texttt{transferFrom} and \texttt{transfer} functions.
+   \item The Orderbook emits the \texttt{TradeAdd} event with the trade details (order number, amount, price, maker, and taker).
+   \item The order book updates its internal buys and sells lists by removing the executed orders.
+   \item The Platform refreshes the buys and sells lists for Alice and Bob.
+\end{enumerate}
+
+The sequence diagram illustrates the flow of interactions between the different actors and the Orderbook smart contract. It shows the process of adding orders, verifying matches, executing trades, and updating the order lists.
+
+\input{02-main/figures/ch3/orderbook_seqdiag.tex}
+
+% \section{Test \& Validation}

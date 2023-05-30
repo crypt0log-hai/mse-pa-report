@@ -1,0 +1,17 @@
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}[scale=0.8, transform shape]
+        \begin{umlpackage}{ERC20Capped}
+            \umlclass[type=abstract, x=0, y=0]{ERC20Capped}{
+                - \_cap: uint256
+              }{
+                + constructor(cap\_: uint256) \\
+                + cap(): uint256 \\
+                - \_mint(account: address, amount: uint256): internal
+              }{
+            }
+        \end{umlpackage}
+    \end{tikzpicture}
+    \caption{Class diagram of the OpenZeppelin ERC20Capped smart contract.}
+    \label{fig:erc20Capped_classdiag}
+\end{figure}

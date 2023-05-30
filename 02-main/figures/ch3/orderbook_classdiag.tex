@@ -1,0 +1,52 @@
+\begin{figure}[htb]
+    \begin{tikzpicture}[scale=0.8, transform shape]
+        \begin{umlpackage}{Orderbook}
+            \umlclass{Orderbook}{
+                - buys: Order[] \\
+                - sells: Order[] \\
+                - erc20Base: ERC20 \\
+                - decimalBase: uint8 \\
+                - erc20Counter: ERC20 \\
+                - decimalCounter: uint8 \\
+            }{
+                + addBuy(amount: uint256, buyPrice: uint256): void \\
+                + addSell(amount: uint256, sellPrice: uint256): void \\
+                + getLengthBuy(): uint256 \\
+                + getLengthSell(): uint256 \\
+                + getBuy(orderNo: uint256): (uint256, uint256, uint256, address) \\
+                + getSell(orderNo: uint256): (uint256, uint256, uint256, address) \\
+                + trade(orderNo: uint256, amount: uint256, tradePrice: uint256, tradeType: uint256): (uint256, uint256, address) \\
+                + decommission(): void \\
+                + decommissionUser(): void \\
+                \umlvirt{+ BuyAdded(orderNo: uint256, amount: uint256, price: uint256, trader: address): void} \\
+                \umlvirt{+ SellAdded(orderNo: uint256, amount: uint256, price: uint256, trader: address): void} \\
+                \umlvirt{+ TradeAdd(orderNo: uint256, amount: uint256, price: uint256, maker: address, taker: address): void}
+            }
+            \umlclass[x=0, y=8]{Order}{
+                - amount: uint256 \\
+                - price: uint256 \\
+                - timestamp: uint256 \\
+                - trader: address \\
+                - status: bytes1 \\
+            }{
+            }
+
+            \umlclass[type=class, x=-5, y=8]{Ownable}{
+                + onlyOwner(): modifier
+            }{
+            }
+
+            \umlinherit[]{Orderbook}{Ownable}
+
+            \umlclass[x=4, y=8]{ERC20}{}{}
+
+            \umlunicompo[mult1=buys, pos1=0.8, mult2=1, pos2=2.9]{Orderbook}{Order}
+            \umlunicompo[mult1=sells, pos1=0.3, mult2=1, pos2=2.9]{Orderbook}{Order}
+            \umlunicompo[mult1=erc20Base, pos1=0.3]{Orderbook}{ERC20}
+            \umlunicompo[mult1=erc20Counter, pos1=0.8]{Orderbook}{ERC20}
+
+        \end{umlpackage}
+    \end{tikzpicture}
+    \caption{Class diagram of the Orderbook smart contract.}
+    \label{fig:orderbook_classdiag}
+\end{figure}

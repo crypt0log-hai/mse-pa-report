@@ -19,7 +19,7 @@ In section \ref{sec:ch2_ethereum_token_standards}, we highlight the importance o
 such as ERC-20, ERC-223, ERC-721, and ERC-777, and how they are used to create tokens on the Ethereum blockchain, and evaluate which token standard is best
 suited for our platform cryptocurrency token.
 
-In section \ref{subsec:ch2_erc20}, we explore the ERC-20 token standard, the most widely used token standard in the Ethereum ecosystem. We analyze its features,
+In section \ref{sec:ch2_erc20}, we explore the ERC-20 token standard, the most widely used token standard in the Ethereum ecosystem. We analyze its features,
 methods and how it aligns with our project requirements for creating versatile and interoperable tokens for international settlements and token exchange.
 
 In section \ref{sec:ch2_openzeppelin}, we introduce OpenZeppelin, a reputable open-source framework for building secure smart contracts on the Ethereum blockchain.
@@ -785,7 +785,7 @@ innovation, facilitating token creation, and diverse, decentralized applications
 
 \subsection{Token standards}
 
-As explained in the previous section \ref{subsec:eip}, the most approved token standard is the ERC20 which we describe more in detail in the section \ref{subsec:ch2_erc20}.
+As explained in the previous section \ref{subsec:eip}, the most approved token standard is the ERC20 which we describe more in detail in the section \ref{sec:ch2_erc20}.
 Many other token standards are designed from the ERC20 for (1) suggesting improvements, (2) adding new features, (3) solving problems, or (4) proposing new functionalities.
 Some proposals define entirely new token standards, such as the ERC777. The table \ref{tab:token_standards} shows some of the most popular token standards derived from the ERC20.
 
@@ -816,7 +816,7 @@ Subsequently, other token standards have emerged, building upon the foundation s
 % ----------------------------------------------------------------------------- DONE
 
 \section{ERC20 Token Standard}
-\label{subsec:ch2_erc20}
+\label{sec:ch2_erc20}
 
 This section introduces the importance of selecting appropriate token standards for our settlement solution. Tokens serve as a medium of exchange and can represent any digital asset
 such as cryptocurrencies, enabling seamless and secure transactions. With numerous tokens at our disposal, the ERC20 token standard is the most popular and widely adopted choice for
@@ -890,6 +890,7 @@ and does not affect the arithmetic of the token. A decimal value of 2 is usually
         \centering
         \text{value} = \text{UET} \times 10^{\text{decimals}}
     \end{equation}
+    \label{eq:decimals}
  \end{center}
  
  

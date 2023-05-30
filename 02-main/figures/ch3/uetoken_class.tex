@@ -1,0 +1,28 @@
+\begin{listing}[!ht]
+    \begin{minted}[]{solidity}
+// contracts/GLDToken.sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract UEToken is ERC20Capped, Ownable {
+    constructor(
+        uint256 initialSupply
+    ) ERC20("Universal Export Token", "UET") ERC20Capped(1000000000) {
+        _mint(msg.sender, initialSupply * 10 ** decimals());
+    }
+
+    function mint(address account, uint256 amount) public onlyOwner {
+        _mint(account, amount);
+    }
+
+    function decimals() public view virtual override returns (uint8) {
+        return 2;
+    }
+}
+    \end{minted}
+    \caption{Solidity source code of the UEToken smart contract.}
+    \label{lst:uetoken_contract}
+\end{listing}

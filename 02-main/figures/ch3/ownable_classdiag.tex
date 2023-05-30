@@ -1,0 +1,21 @@
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.8, transform shape]
+        \begin{umlpackage}{Ownable}
+            \umlclass[type=abstract]{Ownable}{
+                - \_owner: address
+            }{
+                + constructor()\\
+                + OwnershipTransferred(previousOwner, newOwner)\\
+                + onlyOwner(): modifier\\
+                + owner(): address\\
+                - \_checkOwner(): internal\\
+                + renounceOwnership(): virtual\\
+                + transferOwnership(newOwner: address): virtual\\
+                - \_transferOwnership(newOwner: address): internal
+            }
+        \end{umlpackage}
+    \end{tikzpicture}
+    \caption{Class diagram of the OpenZeppelin Ownable smart contract.}
+    \label{fig:ownable_classdiag}
+\end{figure}
