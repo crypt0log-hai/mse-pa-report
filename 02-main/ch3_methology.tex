@@ -406,12 +406,14 @@ In our project, we are building the following components:
 
 The UEToken is the token we created in the previous section and represents
 the base asset\footnote{The base asset is the asset that is being traded.} of our exchange. The USDC token is a stablecoin that is pegged to
-the US dollar and represents the counter asset\footnote{The counter asset is the asset that is being traded against.} of our exchange. Due we
+the US dollar 
+
+The USDC token is a stablecoin representing the fiat currency, the US dollar, in the form of a cryptocurrency where in theory, 1 USDC is always
+equal to 1 USD. Stablecoin represents the counter asset\footnote{The counter asset represents the asset we want against.} of our exchange. Due we
 are using our private Ethereum network, we need to simulate the USDC token. To do so, we create a new ERC20 token contract and mint 1000 USDC
-tokens, for example. In a real case, the USDC token is issued by a centralized authority, Circle Internet Financial Ltd. \cite{usdc}. If
+tokens, for example. In a real case, a centralized authority can issue the USDC token, namely, Circle Internet Financial Ltd. \cite{usdc}. If
 we were to deploy our exchange on the Ethereum mainnet, we would use the real USDC token with the address \texttt{0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48}
 \footnote{The USDC token contract address on the Ethereum mainnet. \url{https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48}}.
-
 
 \subsubsection{Order book smart contract}
 

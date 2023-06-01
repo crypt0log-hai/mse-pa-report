@@ -467,7 +467,7 @@ indicates where the function body will be executed.
 
 Events are used to notify external applications about the occurrence of a specific event. This allows direct interaction with EVM logs.
 Events are an essential part of the Ethereum ecosystem because they allow to interact with smart contracts in a decentralized way, for example
-dApps (Decentralized Applications) and Oracles\footnote{Oracles are third-party services that provide smart contracts with external information.}.
+dApps (Decentralized Applications) and Oracles\footnote{Oracles act like source of information from the outside of a smart contract.}.
 
 \begin{listing}[!ht]
    \begin{minted}[]{solidity}
@@ -709,12 +709,10 @@ decision-making processes and influence the direction of the project.
 From a business perspective, a token can offer the company a new opportunity to issue shares, securities, or their own
 currency, allowing them to take control of their finances. In addition, companies can use tokens to get exclusive access to certain services
 or products within their ecosystem. For example, many companies use tokens to raise project funds through Initial Coin Offerings (ICO)\footnote{ICO: \url{https://en.wikipedia.org/wiki/Initial_coin_offering}}.
-An ICO is a fundraising mechanism in which new projects sell their underlying crypto tokens in exchange for bitcoin and ether. It is
-similar to an Initial Public Offering (IPO)\footnote{IPO: \url{https://en.wikipedia.org/wiki/Initial_public_offering}},
- in which investors purchase company shares. Creating a cryptocurrency token for
+An ICO acts like a crowdfunding mechanism where we can sell our tokens in exchange for cryptocurrencies such as Bitcoin (BTC) or Ether (ETH).
+It is similar to an Initial Public Offering (IPO)\footnote{IPO: \url{https://en.wikipedia.org/wiki/Initial_public_offering}}, in which investors purchase company shares. Creating a cryptocurrency token for
 international settlements allows companies to avoid intermediaries and reduce costs and transaction time. However, regulatory compliance is
 critical for companies that want to issue tokens with specific characteristics.
-
 
 % ----------------------------------------------------------------------------- DONE DONE
 
@@ -870,10 +868,11 @@ and does not affect the arithmetic of the token. A decimal value of 2 is usually
 \label{subsec:erc20_methods}
 
 
-The \texttt{allowance} method shows how many tokens Alice (owner), allows Bob (spender), to transfer on their behalf. This method takes two parameters: the owner's address and the spender's address. It returns the number of tokens the spender is authorized to spend on behalf of the owner.
-Listing \ref{lst:openzeppelin_allowance} exemplifies the implementation of the \texttt{allowance} function in the OpenZeppelin library. Notably, this function is classified as a \texttt{view} function, indicating that it does not modify the state of the contract and does not consume any gas during execution.
-The usage of the \texttt{virtual} keyword signifies that a child contract can override the function, offering flexibility for customization. Additionally, the \texttt{override} keyword indicates that the function overrides a corresponding function in the parent contract, ensuring the appropriate behavior and consistency within the contract hierarchy.
-
+The \texttt{allowance} method shows how many tokens Alice (owner) allows Bob (spender) to transfer on their behalf. This method takes two parameters: the owner's address and the spender's address. It returns the number of tokens the spender is authorized to spend on behalf of the owner.
+Listing \ref{lst:openzeppelin_allowance} exemplifies the implementation of the \texttt{allowance} function in the OpenZeppelin library.
+Notably, this function is classified as a \texttt{view} function, which means that the state of the contract is not modified. Thus no gas is consumed during execution.
+The usage of the \texttt{virtual} keyword signifies that a child contract can override the function, offering flexibility for customization. Additionally, the \texttt{override} keyword indicates that the
+function overrides a corresponding function in the parent contract, ensuring the appropriate behavior and consistency within the contract hierarchy.
 
 \begin{listing}[!ht]
    \begin{minted}[]{solidity}
@@ -1101,6 +1100,7 @@ OpenZeppelin library is widely used and trusted for building secure smart contra
 implementing several standards tokens such as ERC-20. In the EIP-20 \cite{eth_erc20}, Fabian Vogelsteller, the author of the ERC-20 standard, recommends to use the OpenZeppelin implementation of the ERC-20 standard
 \cite{openzeppelin_erc20}:
 
+\newpage
 
 \begin{quote}
    \textit{There are already plenty of ERC20-compliant tokens deployed on the Ethereum network. Various teams have written different implementations with different trade-offs: from gas saving to improved security.}
