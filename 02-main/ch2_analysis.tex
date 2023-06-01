@@ -2,9 +2,9 @@
 \label{ch:analysis}
 
 This chapter is a comprehensive review of the tools, frameworks, and standards available to us. By conducting this analysis, we can identify the project constraints, evaluate the feasibility,
-and make decisions about the project's design and implementation. Our project focuses on building a decentralized platform for international
-settlements to provide a more efficient and cost-effective alternative to the current international settlement systems. As part of this analysis,
-we aim to create our own cryptocurrency token digitally representing value within our platform. Additionally, our platform must be
+and decide on the project's design and implementation. Our project focuses on building a decentralized platform for international
+settlements to provide a more efficient and cost-effective alternative to the current global settlement systems. As part of this analysis,
+we aim to digitally create our own cryptocurrency token representing value within our platform. Additionally, our platform must be
 able to facilitate the exchange of our cryptocurrency token for other cryptocurrencies and fiat currencies.
 
 In section \ref{sec:ch2_ethereum}, we explore Ethereum as a decentralized application platform. We examine the Ethereum blockchain, its core features,
@@ -34,20 +34,20 @@ Finally, section \ref{sec:ch2_web3} introduces Web3.js, a JavaScript library all
 We explain why web3.js is essential for our project, as it simplifies integrating Ethereum functionality into our frontend web application.
 This allows us to interact with our cryptocurrency token and the Ethereum network.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \section{Ethereum, a Decentralized Application Platform}
 \label{sec:ch2_ethereum}
 
-The Ethereum blockchain is a decentralized platform that runs smart contracts. Smart contracts are applications that run exactly as programmed
-without any possibility of downtime, censorship, fraud, or third-party interference. As described in the Ethereum white paper by Vitalik Buterin \cite{ethereum_white_paper}:
+The Ethereum blockchain is a decentralized platform allowing us to develop and deploy decentralized applications (DApps) using smart contracts, which is 
+revolutionary from Bitcoin's blockchain. Smart contracts, as their name suggests, are executed automatically under certain conditions,
+preventing fraud or third-party interference. As described in the Ethereum white paper by Vitalik Buterin \cite{ethereum_white_paper}:
+
 \begin{quote}
     \textit{The intent of Ethereum is to create an alternative protocol for building decentralized applications, providing a different set of tradeoffs that we
         believe will be very useful for a large class of decentralized applications, with particular emphasis on situations where rapid development time,
         security for small and rarely used applications, and the ability of different applications to very efficiently interact, are important.}
-    % newline
-
-
+    
     \textit{(Vitalik Buterin, Ethereum White Paper, 2014)}
 \end{quote}
 
@@ -56,18 +56,16 @@ Ethereum, compared to other blockchains, such as Bitcoin, is a more general-purp
 value, Ethereum runs smart contracts. In addition, Ethereum is Turing-complete, which means that Ethereum is programmable.
 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 
 \subsection{Ethereum Accounts}
 
-
-In Ethereum, there are two types of accounts, (1) \textit{externally owned accounts} and (2) \textit{contract accounts}. Externally owned accounts are controlled
-by private keys, meaning people control them. Contract accounts are controlled by their contract code. They can only be activated by
+In Ethereum, there are two types of accounts, (1) \textit{externally owned accounts} and (2) \textit{contract accounts}. People can control externally owned accounts with their 
+private keys protected with cryptography. On the other hand, contract accounts are held by their contract code. Therefore, they can only be activated by
 an externally owned account, meaning that a contract account is one with which no private key is associated.
-An account can transfer ether to another account by creating a transaction. A transaction is a message sent from one account to another.
+An account can transfer Ether to another account by creating a transaction, a message sent from one account to another.
 In the Ethereum white paper \cite{ethereum_white_paper}, Vitalik Buterin describes an account as follows:
-
 
 \begin{quote}
     \textit{...with each account having a 20-byte address and state transitions being direct transfers of value and information between
@@ -76,8 +74,6 @@ In the Ethereum white paper \cite{ethereum_white_paper}, Vitalik Buterin describ
 
     \textit{(Vitalik Buterin, Ethereum White Paper, 2014)}
 \end{quote}
-
-
 
 An Ethereum account contains four fields:
 
@@ -89,31 +85,27 @@ An Ethereum account contains four fields:
 \end{list}
 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Messages and Transactions}
 \label{subsec:messages_and_transactions}
 
+For communicating between nodes, Ethereum uses two type of data structures, (1) \textit{messages} and (2) \textit{transactions}. A message is data that is sent from one contract
+account to another contract account. A transaction is a signed data package sent from an externally owned account, which contains six fields: (1) the recipient of the transaction, (2) the signature of the transaction, (3) the amount of Ether to transfer,
+(4) an optional data field, (5) a \texttt{STARTGAS} value, and (6) a \texttt{GASPRICE} value. The \texttt{GASPRICE} value represent a maximum amount of computational steps the transaction execution is allowed to execute.
+The \texttt{GASPRICE} value is the fee the transaction's sender 
+is willing to pay for each computational step. We explains with more details in the next section \ref{subsec:gas} and in section \ref{subsec:fees}, 
+the \texttt{STARTGAS} and \texttt{GASPRICE} fields. 
 
-In Ethereum, there are two types of messages, (1) \textit{messages} and (2) \textit{transactions}. A message is data that is sent from one contract
-account to another contract account. A transaction is a signed data package sent from an externally owned account. In this data package, there are
-six fields, (1) the recipient of the transaction, (2) the signature of the transaction, (3) the amount of Ether to transfer,
-(4) an optional data field, (5) a \texttt{STARTGAS} value, and (6) a \texttt{GASPRICE} value. The \texttt{STARTGAS} value is the maximum number of computational
-steps the transaction execution is allowed to take. The \texttt{GASPRICE} value is the fee the transaction's sender is willing to pay for each computational
-step. These two values are explained in more detail in the next section \ref{subsec:gas} and in section \ref{subsec:fees}.
-
-
-The first three fields are the same as in Bitcoin. The optional data field has no function in Ethereum. The \texttt{STARTGAS} and \texttt{GASPRICE} fields are
+Bitcoin and Ethereum have a similar transaction structure, because they both have the first three fields in common. The optional data field has no function in Ethereum. The \texttt{STARTGAS} and \texttt{GASPRICE} fields are
 essential for preventing denial of service attacks. These fields are part of the anti-denial of the service model of Ethereum. The main goal of
 the anti-denial of service model is to avoid situations where code execution is infinite or takes an extremely long time, accidentally
 or intentionally.
 
+With this gas and fees system, Ethereum assures that any attacker must pay for every resource he consumes. This mechanism is the core of the Ethereum,
+allowing Ethereum to maintain the stability of its network and prevent malicious actors from spamming it.
 
-With this gas and fees system, Ethereum assures that any attacker must pay for every resource he consumes. This mechanism helps
-to maintain the stability of the Ethereum network and prevent malicious actors from spamming the network.
-
-
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Messages}
 
@@ -122,6 +114,8 @@ A message is described in the Ethereum white paper \cite{ethereum_white_paper} a
 
 \begin{quote}
    \textit{Messages are virtual objects that are never serialized and exist only in the Ethereum execution environment.}
+
+   \textit{(Vitalik Buterin, Ethereum White Paper, 2014)}
 \end{quote}
 
 
@@ -129,11 +123,11 @@ A message contains :
 
 
 \begin{list}{-}{}
-   \item \textbf{sender}: The sender of the message.
-   \item \textbf{recipient}: The recipient of the message.
-   \item \textbf{amount}: The amount of Ether to transfer.
-   \item \textbf{data}: The optional data field.
-   \item \textbf{STARTGAS}: The maximum number of computational steps the transaction execution is allowed to take.
+   \item \textbf{sender}: Sender of the message.
+   \item \textbf{recipient}: Recipient of the message.
+   \item \textbf{amount}: Amount of Ether to transfer.
+   \item \textbf{data}: Optional data field.
+   \item \textbf{STARTGAS}: Maximum number of computational steps the code execution is allowed to execute.
 \end{list}
 
 
@@ -143,35 +137,42 @@ is that a transaction is sent from an externally owned account, and a message is
 can call a function that, as a result, creates a message and call another function in the same or another contract using the opcode \texttt{CALL} and \texttt{DELEGATECALL}
 (see section \ref{sec:evm}). An amount of gas is used for a message sent from a transaction that triggers a function call.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Code Execution}
 \label{sec:evm}
 
-
-Ethereum provides a virtual machine called the Ethereum Virtual Machine (EVM). The EVM is a Turing-complete virtual machine that is used to execute
-smart contracts, which by definition are code that is stored on the blockchain. To interact with the EVM, the code must transform into a bytecode.
+Smart contracts are described as a piece of code stored in the Ethereum blockchain world. To execute this code, we use a virtual machine called the Ethereum Virtual 
+machine (EVM) that works as a Turing-complete virtual machine. The EVM can only understand bytecode. Therefore, we need to translate our code bytecode.
 In the Ethereum white paper \cite{ethereum_white_paper}, Vitalik Buterin describes the code as follows:
 
-
 \begin{quote}
-   \textit{The code in Ethereum contracts is written in a low-level, stack-based bytecode language, referred to as "Ethereum virtual machine code" or "EVM code". The code consists of a series of bytes, where each byte represents an operation.}
-
+   \textit{The code in Ethereum contracts is written in a low-level, stack-based bytecode language, referred to as "Ethereum virtual machine code" or "EVM code". The code consists of a series of bytes, each representing an operation.}
 
    \textit{(Vitalik Buterin, Ethereum White Paper, 2014)}
 \end{quote}
 
 
 In code execution, there is typically an infinite loop that follows a sequence of operations. The loop continuously operates as indicated
-by the current program counter, which starts at zero. When the execution of an operation is finished, the program counter is increased by one, and the next
-operation is executed. The process continues until one of the following conditions is met, (1) the end of the code is reached, (2) an error occurs or
-(3) the \texttt{STOP} or \texttt{RETURN} instruction is executed. The \texttt{STOP} instruction halts the execution of the code, and the \texttt{RETURN} instruction
+by the current program counter, which starts at zero. At the end of the execution of a function, the program counter is increased by one, and the next
+operation is executed. Then, the process continues until one of the following conditions is met, (1) at the end of the code is reached, (2) when an error occurs or
+(3) at the \texttt{STOP} or at \texttt{RETURN} instruction execution. The \texttt{STOP} instruction halts the execution of the code, and the \texttt{RETURN} instruction
 returns the output data of the code execution. During execution, the EVM has access to three types of memory as illustrated in Figure \ref{fig:evm}:
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\columnwidth]{ch2/evm.png}
+    \captionsource{Diagram of EVM architecture}
+    {Diagram of EVM architecture as described in Ethereum Yellow Paper \cite{ethereum_yellow_paper}.
+    }{\url{https://takenobu-hs.github.io/downloads/ethereum_evm_illustrated.pdf}}
+    \label{fig:evm}
+ \end{figure}
+
+ Here is a description of the three types of memory illustrated in Figure \ref{fig:evm}:
 
 \begin{list}{-}{}
    \item \textbf{Stack}: The stack is a last-in-first-out (LIFO) data structure and has a depth of 1024 items. It is used to store local variables.
-   \item \textbf{Memory}: A byte array with a maximum size of $2^{256} - 1$ bytes. The memory is used to store data.
+   \item \textbf{Memory}: A byte array with a maximum size can represent the gas as a fuel of these of $2^{256} - 1$ bytes. The memory is used to store data.
    \item \textbf{Storage}: A key-value store with a maximum size of $2^{256} - 1$ key-value pairs. The storage is used to store data permanently even after the end
          of the computation, unlike the stack and the memory.
 \end{list}
@@ -181,16 +182,7 @@ In addition, the code execution has access to the value, the sender, and the dat
 the block header data. The code can return a byte array as output data. The output data is stored in the transaction that triggered the code execution.
 
 
-\begin{figure}[H]
-   \centering
-   \includegraphics[width=1\columnwidth]{ch2/evm.png}
-   \captionsource{Diagram of EVM architecture}
-   {Diagram of EVM architecture as described in Ethereum Yellow Paper \cite{ethereum_yellow_paper}.
-   }{\url{https://takenobu-hs.github.io/downloads/ethereum_evm_illustrated.pdf}}
-   \label{fig:evm}
-\end{figure}
-
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Currency}
 \label{subsec:currency_and_issuance}
@@ -198,28 +190,16 @@ the block header data. The code can return a byte array as output data. The outp
 
 The Ethereum white paper \cite{ethereum_white_paper} describes the currency and issuance as follows:
 
-
-
-
 \begin{quote}
   \textit{The Ethereum network includes its own built-in currency, ether, which serves the dual purpose of providing a primary
       liquidity layer to allow for efficient exchange between various types of digital assets and, more importantly, of providing a
       mechanism for paying transaction fees.}
 
-
-
-
   \textit{(Vitalik Buterin, Ethereum White Paper, 2014)}
 \end{quote}
 
-
-
-
 The currency of Ethereum is called \textit{ether} and is used to pay for transaction fees and computational services. The smallest unit
 of ether is called \textit{wei}. The denomination of ether is as follows:
-
-
-
 
 \begin{table}[H]
   \centering
@@ -239,8 +219,6 @@ of ether is called \textit{wei}. The denomination of ether is as follows:
   \caption{Ether denominations.}
   \label{tab:ether_denominations}
 \end{table}
-
-
 
 
 The wei denomination is designed for an internal representation of the data. The wei unit is used in most cases, and the values
@@ -281,7 +259,7 @@ availability of ether for various transactions and interactions on the platform.
 
 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Gas}
 \label{subsec:gas}
@@ -300,11 +278,9 @@ Gas is essential to the Ethereum network. The Ethereum white paper \cite{ethereu
    \textit{(Vitalik Buterin, Ethereum White Paper, 2014)}
 \end{quote}
 
-
-Gas represents the unit that measures the computational effort required to execute operations or run programs in the Ethereum network.
-Each transaction requires a certain amount of resources to be executed. Thus each transaction requires a fee. Gas refers to the fee required to
+We can represent the gas as a fuel of the Ethereum network, measuring the amount of work required to perform a specific operation.
+Each transaction requires a certain amount of resources to be executed. Thus each transaction requires a \textit{fee}  to
 execute a transaction or a message in Ethereum even if the transaction succeeds or fails.
-
 
 \begin{figure}[H]
    \centering
@@ -321,7 +297,7 @@ value is \texttt{GASLIMIT}. This value is the maximum amount of gas used on a tr
 default gas limit. If the gas limit is too low, the transaction will fail, and the gas will be consumed. Standard transactions have a gas limit of 21,000 gas.
 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Fees}
 \label{subsec:fees}
@@ -329,13 +305,11 @@ default gas limit. If the gas limit is too low, the transaction will fail, and t
 
 As in Bitcoin, the fees are a crucial part of the Ethereum network because they prevent the network from being overloaded by computations. The difference between Bitcoin 
 and Ethereum is that in Bitcoin, the fees are paid per byte of data, whereas in Ethereum, the fees are paid per computational step. As mentioned in the previous section 
-\ref{subsec:gas}, the gas is used to prevent infinite loops or other computational wastage in code. The \texttt{STARTGAS} (see section \ref{subsec:messages_and_transactions}) 
-value is the maximum number of computational steps the transaction execution is allowed to take. Every transaction requires a limit of gas to prevent infinite loops. 
-Each computational step costs a certain amount of gas, typically one gas. However, some operations cost more due to their computational complexity or due to storage space.
+\ref{subsec:gas}, the gas is used to prevent infinite loops or other computational wastage in code.The \texttt{STARTGAS} (see section \ref{subsec:messages_and_transactions}) 
+value represents the maximum amount of gas, meaning we cannot exceed a certain number of computational steps. Every transaction requires a limit of gas to prevent infinite loops, and each computational step costs a certain 
+amount of gas, typically one gas. However, some operations cost more due to their computational complexity or due to storage space.
 
-
-The transaction fee is an integral part of each transaction and serves as a deterrent against spam attacks. Transactions requiring more resources will incur higher fees compared 
-to those with fewer resources, making the fee proportional to the transaction size. The calculation of the transaction fee is demonstrated by the equation below.
+The fee is integral to each transaction and serves as a deterrent against spam attacks. Transactions requiring more resources will incur higher fees than those with fewer resources, making the fee proportional to the transaction size. The calculation of the transaction fee is demonstrated by the equation below.
 
 
 \begin{equation}
@@ -345,11 +319,11 @@ to those with fewer resources, making the fee proportional to the transaction si
 
 
 One advantage of decoupling the execution cost from a specific currency, such as setting the cost of a computation step to three wei, is separating transaction 
-execution cost from the fluctuations in Ether's value compared to fiat currencies. For example, if the price of Ether significantly rises relative to a currency like the 
+execution cost from the fluctuations in Ether's value compared to fiat currencies. For example, if the price of Ether significantly rises relative to a currency like a 
 dollar, a fixed price per computational step could become unaffordable. To address this concern, the \texttt{GASPRICE} (see section \ref{subsec:messages_and_transactions}) 
-is used to set the price of gas in Ether, ensuring a consistent amount of gas consumed by the transaction while allowing for adjustments in the overall gas price.
+is used to set the gas price in Ether, ensuring a consistent amount of gas consumed by the transaction while allowing for adjustments in the overall gas price.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 
 \section{Solidity, a high-level language for Ethereum}
@@ -357,40 +331,37 @@ is used to set the price of gas in Ether, ensuring a consistent amount of gas co
 
 
 To interact with the Ethereum network, we need to write smart contracts. For this purpose, we use Solidity, a high-level language for
-implementing smart contracts. Solidity is a statically typed language that supports inheritance, libraries, and complex user-defined types
-, among other features.
+implementing smart contracts. Solidity is a statically typed language that supports inheritance, libraries, and complex user-defined types, among other features.
 From the official documentation \cite{ethereum_solidity_doc}, Ethereum foundation describes Solidity as follows:
 
 
 \begin{quote}
    \textit{Solidity is an object-oriented, high-level language for implementing smart contracts. Smart contracts are programs that govern the behavior of accounts within the Ethereum state.
-       Solidity is a curly-bracket language designed to target the Ethereum Virtual Machine (EVM). It is influenced by C++, Python, and JavaScript.You can find more details about which languages Solidity has been inspired by in the language influences section.}
+       Solidity is a curly-bracket language that targets the Ethereum Virtual Machine (EVM). C++, Python, and JavaScript influence it. In the language influences section, you can find more details about which languages Solidity has been inspired by.}
 
 
    \textit{(Ethereum Foundation)}
 \end{quote}
 
 
-
-The Solidity compiler, known as \textit{solc}, is responsible for compiling Solidity code into bytecode that can be executed on the Ethereum Virtual Machine (EVM). 
+Solidity owns its compiler, the compiler \textit{solc}, whose purpose is to translate the Solidity code into bytecode, the only language understood by the Ethereum Virtual Machine (EVM). 
 Developed in C++, the Solidity compiler is licensed under the GNU Lesser General Public License v3.0 (LGPL). It offers both command-line utility and library 
 functionalities, providing flexibility in its usage.
 
 In summary, all smart contracts for our project are written in Solidity and compiled into EVM-executable bytecode. The upcoming sections will delve into the Solidity 
-language and discuss the fundamental structure necessary to understand how we implemented the smart contracts in our project.
+language and discuss the fundamental structure necessary to understand how we implemented smart contracts in our project.
 
-
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{State Variables}
 
-State variables in Solidity serve as a contract's persistent data stored on the blockchain, retaining their values throughout multiple function calls. These 
+State variables in Solidity are a contract's persistent data stored on the blockchain, retaining their values throughout multiple function calls. These 
 variables define the properties and attributes of a contract and are accessible to all functions within it.
 
 To declare a state variable in Solidity, we specify its type, visibility, and optional modifiers. Solidity offers a range of data types, including integers, booleans, 
 strings, arrays, structs, and user-defined types. These data types enable the representation and manipulation of different kinds of data within the smart contract.
 
-\begin{listing}[!ht]
+\begin{listing}[H]
     \begin{minted}[]{solidity}
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
@@ -413,14 +384,11 @@ contract SimpleStorage {
 \end{listing}
 
 In the Listing \ref{lst:state_variable}, the contract \texttt{SimpleStorage} has a state variable \texttt{storedData} of type \texttt{uint256}.
-By utilizing state variables, Solidity provides a powerful mechanism for managing and preserving the state of contracts on the blockchain, facilitating the development of decentralized applications.
+By utilizing state variables, Solidity provides a powerful mechanism for managing and preserving the state of blockchain contracts, facilitating decentralized applications' development.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Functions}
-
-
-
 
 Functions in Solidity play a crucial role in implementing the logic of a contract and are similar to functions in other programming languages. They can 
 be declared with different visibilities, including \texttt{external}, \texttt{public}, \texttt{internal}, or \texttt{private}. The default visibility is \texttt{public}.
@@ -456,7 +424,7 @@ On the other hand, the \texttt{decimals} function is declared as \texttt{public 
 modifying the state. In this case, the \texttt{decimals} function returns the number of decimals for the token without requiring a transaction and, therefore, is free of
 charge of gas.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Function Modifiers}
 
@@ -525,7 +493,7 @@ contract MyTokenAction{
 In Listing \ref{lst:event}, the contract \texttt{MyTokenAction} shows the usage of an event called \texttt{Transfer}. The \texttt{Transfer} event serves to notify external applications about the transfer of tokens. The \texttt{transfer} function, responsible for transferring tokens from one address to another, emits the
 \texttt{Transfer} event after completing the token transfer. The \texttt{emit} keyword triggers the event, providing the necessary arguments.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Structs}
 
@@ -558,14 +526,14 @@ This struct is responsible for storing order-related data. Within the \texttt{Or
 \texttt{timestamp}, \texttt{trader}, and \texttt{status}. By utilizing the \texttt{Order} struct, the contract can effectively store and manage order data within the 
 order book.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Common Data Types in Solidity}
 
 Solidity supports various data types that allow developers to define and manipulate variables within smart contracts. Here are some common data types used in Solidity:
 
 \begin{itemize}
-   \item \textbf{Integers}: Solidity provides signed and unsigned integer types with different bit sizes. For example, \texttt{uint} represents an unsigned integer, and \texttt{int} represents a signed integer. You can specify the number of bits by appending the number, such as \texttt{uint256} or \texttt{int8}.
+   \item \textbf{Integers}: Solidity provides signed and unsigned integer types with different bit sizes. We can specify the number of bits by appending the number, such as \texttt{uint256} or \texttt{int8}.
 
 
    \item \textbf{Booleans}: Solidity includes a \texttt{bool} type that can store either \texttt{true} or \texttt{false}.
@@ -598,13 +566,13 @@ These data types have been selected based on their relevance to our project and 
 It is important to note that Solidity offers a broader range of data types beyond those mentioned in this list. The official Solidity documentation \cite{ethereum_solidity_doc} refers to a comprehensive understanding of all 
 available data types and their specific use cases.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{UML Diagram for Solidity Code}
 
 Unified Modeling Language (UML) diagrams are graphical representations that visualize the structure and relationships of various elements
 in software systems. While UML diagrams are commonly used for object-oriented programming languages, they can also be adapted to represent
-Solidity code. This project uses UML diagrams to represent the structure and relationships between our Token and exchange contracts.
+Solidity code. This project uses UML diagrams to describe the structure and relationships between our Token and exchange contracts.
 To create UML diagrams in \LaTeX, we use the \texttt{tikz-uml} package. This package provides a set of macros for creating UML sequence diagrams, class diagrams, 
 and other UML diagram types.
 
@@ -678,23 +646,21 @@ for creating UML classes, sequences, and other UML diagram types.
 \end{figure}
 
 
-
 Figure \ref{fig:uml_sequence_diagram} illustrates a UML sequence diagram corresponding to the Solidity code presented in Listing \ref{lst:function}. The diagram captures 
-the sequence of interactions between the involved actors, namely Alice and Bob, and the contract's functions.
+the sequence of interactions between the actors, Alice and Bob, and the contract's functions.
 In the diagram, Alice initiates the process by calling the function \texttt{transferOwnership}, which transfers her ownership to Bob. This function internally invokes the 
 \texttt{onlyOwner} modifier to verify whether the caller is the contract owner. If the caller is not the owner, the \texttt{onlyOwner} function reverts the transaction, 
-preventing the transfer of ownership. The transaction is reverted in this scenario because Alice is not the contract owner since she has already transferred her ownership to Bob.
-The diagram distinguishes between transactions and calls using different colors. Blue circles represent transactions, while calls are depicted with green circles.
+preventing the transfer of ownership. The transaction is reverted in this scenario because Alice is not the contract owner since she has already transferred her right to Bob.
+The diagram distinguishes between transactions and calls using different colors. For example, blue circles represent transactions, while calls are depicted with green circles.
 This UML sequence diagram provides a visual representation of the interactions and control flow within the contract, aiding in understanding its functionality and behavior.
 
-
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \section{Ethereum Token Standards}
 \label{sec:ch2_ethereum_token_standards}
 
 In blockchain technology and cryptocurrencies, a token is essential in allowing more possibilities and use cases of decentralized
-applications and ecosystems. A token represents a digital asset that can be compared in various forms of value, such as money, loyalty points, gold certificates, and more.
+applications and ecosystems. A token represents a digital asset that can be compared in various forms of value, such as money, gold, certificates, and more.
 To enable interoperability, consistency, and compatibility between different tokens, the Ethereum community has created a set of token standards.
 These standards are called Ethereum Request for Comments (ERC). The ERC standards are Ethereum Improvement Proposals (EIP) that define a set of rules
 that a token must implement to be ERC-compliant.
@@ -711,7 +677,7 @@ the Ethereum Improvement Proposals created to define the token standards. Finall
 token.
 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{What is a Token ?}
 
@@ -733,8 +699,7 @@ to a physical token in the real world, where a token can represent ownership rig
 We can illustrate the concept of a token with an example. First, let us consider an analogy for an IT Security convention like the DEF CON
 \footnote{DEFCON is one of the world's largest hacker conventions, held annually in Las Vegas, Nevada.} convention. Imagine we attend
 the DEFCON convention, and as we enter the convention, we receive a special badge that gives us certain privileges. This badge
-is similar to a token because it allows us to access certain convention areas, participate in exclusive events
-, and receive certain benefits. However, in this case, the badge represents a value within the DEFCON convention, enabling us to engage
+is similar to a token because it allows us to access certain convention areas, participate in exclusive events, and receive certain benefits. However, in this case, the badge represents a value within the DEFCON convention, enabling us to engage
 in certain activities.
 
 We can cite some examples of tokens such as Aragon (ANT)\footnote{Aragon Token: \url{https://aragon.org/}} and Basic Attention Token (BAT)\footnote{Basic Attention Token: \url{https://basicattentiontoken.org/}}.
@@ -751,7 +716,7 @@ international settlements allows companies to avoid intermediaries and reduce co
 critical for companies that want to issue tokens with specific characteristics.
 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Ethereum Improvement Proposals}
 \label{subsec:eip}
@@ -780,7 +745,7 @@ Ethereum Improvement Proposals and token standards have significantly contribute
 innovation, facilitating token creation, and diverse, decentralized applications on the Ethereum blockchain.
 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Token standards}
 
@@ -812,7 +777,7 @@ Table \ref{tab:token_standards} provides an overview of token standards, illustr
 Subsequently, other token standards have emerged, building upon the foundation set by ERC20. It is important to note that the table represents a selection and is not exhaustive. To explore the complete documentation and comprehensive lists of token standards, one can visit the official website of Ethereum Improvement Proposals (EIPs)
 \cite{ethereum_eip}. The EIPs website is a valuable resource for the community, providing access to drafts and proposals open for review and discussion.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \section{ERC20 Token Standard}
 \label{sec:ch2_erc20}
@@ -849,7 +814,7 @@ interface IERC20 {
    event Approval(address indexed owner, address indexed spender, uint256 value);
 }
    \end{minted}
-   \caption{ERC20 interface in Solidity.}
+   \caption{ERC20 interface presented in Solidity.}
    \label{lst:erc20_interface}
 \end{listing}
 
@@ -858,30 +823,31 @@ The listing \ref{lst:erc20_interface} shows the ERC20 interface in Solidity repr
 
 
 \begin{itemize}
-   \item \mintinline{solidity}|name()|: Returns the token's name as the name suggests. E.g. the name of \textit{Universal Export Token} is \texttt{Universal Export Token}.
-   \item \mintinline{solidity}|symbol()|: Returns the token's symbol, usually a shorter name version. E.g. the symbol of \textit{Universal Export Token} is \texttt{UET}.
-   \item \mintinline{solidity}|decimals()|: Returns the number of decimals used to get its user representation. For example if \texttt{decimals} equals $2$, a balance of 12345 tokens should be displayed to a user as $123.45$.
-   \item \mintinline{solidity}|totalSupply()|: Returns the total token supply.
-   \item \mintinline{solidity}|balanceOf(address)|: Returns the token balance of a given address.
-   \item \mintinline{solidity}|transfer(address, amount)|: Transfers a specified amount of tokens from the sender's address to the recipient's address. The function returns a boolean
-         value indicating whether the operation was successful and must fire the \mintinline{solidity}|Transfer| event. The return value of 0 indicates that the transfer was successful.
-   \item \mintinline{solidity}|transferFrom(from, to, amount)|: Transfers a specified amount of tokens from one address to another. The function returns a boolean value
-         indicating whether the operation was successful and must fire the \mintinline{solidity}|Transfer| event. This method is used for a withdrawal workflow,
-         meaning that a user can transfer tokens on behalf of another user (e.g. a decentralized exchange) with charge fees.
-   \item \mintinline{solidity}|allowance(owner, spender)|: Returns the current allowance of a spender for a given owner. The allowance is the maximum amount of tokens a spender can spend on behalf of the owner.
-   \item \mintinline{solidity}|approve(spender, amount)|: Allows a spender to transfer a specified amount of tokens on behalf of the token owner.
-   \item \mintinline{solidity}|Transfer(address, address, amount)|: Emitted when tokens are transferred from one address to another. The event is triggered when tokens are transferred by the \mintinline{solidity}|transfer| and \mintinline{solidity}|transferFrom| functions.
-   \item \mintinline{solidity}|Approval(address, address, amount)|: Emitted when the allowance of a spender for an owner is set by the \mintinline{solidity}|approve| function. The event is triggered when the allowance is set by the \mintinline{solidity}|approve| function.
+    \item \mintinline{solidity}|name()|: Returns the token's name as the name suggests. E.g. the name of \textit{Universal Export Token} is \texttt{Universal Export Token}.
+    \item \mintinline{solidity}|symbol()|: Returns the token's symbol, usually a shorter name version. E.g. the symbol of \textit{Universal Export Token} is \texttt{UET}.
+    \item \mintinline{solidity}|decimals()|: Returns the representation of the smallest fraction of a token because of the absence of floating-point numbers in Solidity. If \texttt{decimals} returns $2$, 
+    a balance of 12345 tokens should be displayed to a user as $123.45$.
+    \item \mintinline{solidity}|totalSupply()|: Returns the total token supply.
+    \item \mintinline{solidity}|balanceOf(address)|: Returns the token balance of a given address.
+    \item \mintinline{solidity}|transfer(address, amount)|: Transfers a specified amount of tokens from the sender's address to the recipient's address. The function returns a boolean
+          value indicating whether the operation was successful and must fire the \mintinline{solidity}|Transfer| event. The return value of 0 indicates that the transfer was successful.
+    \item \mintinline{solidity}|transferFrom(from, to, amount)|: Transfers a specified amount of tokens from one address to another. The function returns a boolean value
+          indicating whether the operation was successful and must fire the \mintinline{solidity}|Transfer| event. This method is used for a withdrawal workflow,
+          meaning a user can transfer tokens on behalf of another user (e.g., a decentralized exchange) with charge fees.
+    \item \mintinline{solidity}|allowance(owner, spender)|: Returns the current allowance of a spender for a given owner. The allowance is the maximum amount of tokens a spender can spend on behalf of the owner.
+    \item \mintinline{solidity}|approve(spender, amount)|: Allows a spender to transfer a specified amount of tokens on behalf of the token owner.
+    \item \mintinline{solidity}|Transfer(address, address, amount)|: Emitted when tokens are transferred from one address to another. The event is triggered when tokens are transferred by the \mintinline{solidity}|transfer| and \mintinline{solidity}|transferFrom| functions.
+    \item \mintinline{solidity}|Approval(address, address, amount)|: Emitted when the allowance of a spender for an owner is set by the \mintinline{solidity}|approve| function. The event is triggered when the allowance is set by the \mintinline{solidity}|approve| function.
 \end{itemize}
 
-All balances and amount parameters are represented on 256 bits unsigned integers, thus the maximum amount of tokens that can be handled is $2^{256} - 1$. The point is to make that some functions are declared as \texttt{view} functions
-like \mintinline{solidity}|name()|, \mintinline{solidity}|symbol()|, etc. It indicates that the function does not modify the state of the contract and does not consume any gas. Therefore. the \texttt{view} functions are free to call and do not require gas.
+All balances and amount parameters are represented on 256 bits of unsigned integers. Thus, the maximum amount of tokens that can be handled is $2^{256} - 1$. The point is to make that some functions are declared as \texttt{view} functions
+like \mintinline{solidity}|name()|, \mintinline{solidity}|symbol()|, etc. It indicates that the function does not modify the state of the contract and does not consume any gas. Therefore the \texttt{view} functions are free to call and do not require gas.
 It can be compared to a getter function in object-oriented programming that returns a private variable's value. Another critical point is the \mintinline{solidity}|decimal()| function. When working
-with tokens, we usually work with a very small amount, representing a fraction of a token. For example, if one owns 4 UET tokens, transferring 3.49 UET to another address may be necessary, and keeping 0.51 UET in the sender's address. The EVM does not support floating point numbers, so Solidity allows us to define the integer number values of the token that should be displayed as a fraction of a token.
+with tokens, we usually work with a small amount, representing a fraction of a token. For example, if one owns 4 UET tokens, transferring 3.49 UET to another address may be necessary, and keeping 0.51 UET in the sender's address. The EVM does not support floating point numbers, so Solidity allows us to define the integer number values of the token that should be displayed as a fraction of a token.
 It can be a problem because if one wants to transfer 3.49 UET, the number of tokens to transfer can be only 3 UET or 4 UET.
 
-To solve this problem, ERC20 tokens include the \mintinline{solidity}|decimals()| function that returns the number of decimals used to get its user representation. For example, if \mintinline{solidity}|decimals()| equals $2$,
-it is possible to transfer 3.49 UET by transferring 349 UET and keeping 51 UET in the sender's address. It is important to note that the \mintinline{solidity}|decimals()| function is only used for display purposes
+To solve this problem, ERC20 tokens include the \mintinline{solidity}|decimals()| function that returns the representation of the smallest fraction of a token with
+an integer value. For example, if \mintinline{solidity}|decimals()| equals $2$, it can transfer 3.49 UET by transferring 349 UET and keeping 51 UET in the sender's address. It is important to note that the \mintinline{solidity}|decimals()| function is only used for display purposes
 and does not affect the arithmetic of the token. A decimal value of 2 is usually common in many other ERC20 tokens. It means when we mint or transfer tokens, we work with a value of :
 
 \begin{center}
@@ -895,16 +861,16 @@ and does not affect the arithmetic of the token. A decimal value of 2 is usually
  
  For example, if we want to mint 1000 UET, we mint $1000 \times 10^2 = 100000$ UET, the same process for transferring tokens. However, some tokens
  like Ether have a decimal value of 18, which means that when we transfer 1 Ether, we transfer $1 \times 10^{18} = 1000000000000000000$ Wei. Some others have a decimal value of 0,
- which means that when we transfer 1 token, we transfer $1 \times 10^0 = 1$ token. It can make sense for some tokens like a token representing a share of a company. It is not possible to transfer
+ which means that when we transfer 1 token, we transfer $1 \times 10^0 = 1$ token. It can make sense for some tokens like a token representing a share of a company. However, it is not possible to transfer
  a fraction of a share. 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \subsection{Methods of the ERC20 interface}
 \label{subsec:erc20_methods}
 
 
-The \texttt{allowance} method enables an owner, such as Alice, to verify the number of tokens that a spender, such as Bob, is permitted to transfer on their behalf. This method takes two parameters: the owner's address and the spender's address. It returns the number of tokens the spender is authorized to spend on behalf of the owner.
+The \texttt{allowance} method shows how many tokens Alice (owner), allows Bob (spender), to transfer on their behalf. This method takes two parameters: the owner's address and the spender's address. It returns the number of tokens the spender is authorized to spend on behalf of the owner.
 Listing \ref{lst:openzeppelin_allowance} exemplifies the implementation of the \texttt{allowance} function in the OpenZeppelin library. Notably, this function is classified as a \texttt{view} function, indicating that it does not modify the state of the contract and does not consume any gas during execution.
 The usage of the \texttt{virtual} keyword signifies that a child contract can override the function, offering flexibility for customization. Additionally, the \texttt{override} keyword indicates that the function overrides a corresponding function in the parent contract, ensuring the appropriate behavior and consistency within the contract hierarchy.
 
@@ -918,7 +884,7 @@ function allowance(address owner, address spender) public view virtual override 
    return _allowances[owner][spender];
 }
    \end{minted}
-   \caption{OpenZeppelin implementation of the \texttt{allowance} function.}
+   \caption{OpenZeppelin implementation (v4.8.3) of the ERC20 \texttt{allowance} function.}
    \label{lst:openzeppelin_allowance}
 \end{listing}
 
@@ -951,13 +917,13 @@ function _approve(address owner, address spender, uint256 amount) internal virtu
     emit Approval(owner, spender, amount);
 }
     \end{minted}
-    \caption{OpenZeppelin implementation of the \texttt{approve} function.}
+    \caption{OpenZeppelin implementation (v4.8.3) of the ERC20 \texttt{approve} function.}
     \label{lst:openzeppelin_approve}
 \end{listing}
 
 The implementation shown in Listing \ref{lst:openzeppelin_approve} includes two conditions on lines 15 and 16 that must be satisfied to execute the approval process. These checks ensure that both the owner and the spender addresses are not the zero addresses.
 The zero address, denoted as \texttt{address(0)}, holds special significance in Ethereum. It represents the absence of an address and is utilized in various scenarios. By casting the integer 0 to a 20-byte address, the zero address is used for initializing address variables and verifying whether an address has been set. It is also called the \texttt{0x0} or \texttt{0x0} account.
-Furthermore, the zero address plays a role in burning tokens, where tokens sent to the zero address are permanently lost. It is employed for checking invalid addresses as well. For instance, to validate an address, one can compare it to the zero address. When both conditions are fulfilled, the method updates the spender's allowance to the provided value and emits an \texttt{Approval} event.
+Furthermore, the zero address plays a role in burning tokens, where tokens sent to the zero address are permanently lost. Finally, it is employed for checking invalid addresses as well. For instance, to validate an address, one can compare it to the zero address. When both conditions are fulfilled, the method updates the spender's allowance to the provided value and emits an \texttt{Approval} event.
 
 The \texttt{transfer} method enables an owner, such as Alice, to initiate a transfer of a specified token amount to another address, such as Bob's address. This operation involves deducting the token quantity from Alice's balance and adding it to Bob's balance.
 Listing \ref{lst:openzeppelin_transfer} presents the OpenZeppelin implementation of the \texttt{transfer} function. The function accepts two parameters: the recipient's address and the number of tokens to be transferred. It first verifies the validity of both the sender and recipient addresses. Subsequently, the method checks if the sender possesses a sufficient token balance for the transfer. If the sender holds an adequate amount of tokens, the function updates the balances of the sender and recipient accordingly and emits a \texttt{Transfer} event.
@@ -998,7 +964,7 @@ function _transfer(address from, address to, uint256 amount) internal virtual {
     _afterTokenTransfer(from, to, amount);
 }
     \end{minted}
-    \caption{OpenZeppelin implementation of the \texttt{transfer} function.}
+    \caption{OpenZeppelin implementation (v4.8.3) of the ERC20 \texttt{transfer} function.}
     \label{lst:openzeppelin_transfer}
 \end{listing}
 
@@ -1006,7 +972,7 @@ Finally, the \texttt{transferFrom} method facilitates the transfer of a specifie
 from Alice is required, which is obtained through the \texttt{approve} method. This functionality allows the spender to transfer tokens between two addresses, providing a convenient 
 mechanism for delegated token transfers.
 
-\begin{listing}[!ht]
+\begin{listing}[H]
     \begin{minted}[]{solidity}
 /**
 * @dev See {IERC20-transferFrom}.
@@ -1031,7 +997,7 @@ function transferFrom(address from, address to, uint256 amount) public virtual o
     return true;
 }
     \end{minted}
-    \caption{OpenZeppelin implementation of the \texttt{transferFrom} function.}
+    \caption{OpenZeppelin implementation (v4.8.3) of the ERC20 \texttt{transferFrom} function.}
     \label{lst:openzeppelin_transferFrom}
 \end{listing}
 
@@ -1049,7 +1015,7 @@ The specifications of the ERC-20 standard, authored by Fabian Vogelsteller \cite
 \begin{quote}
     \textit{...The function SHOULD throw unless the \_from account has deliberately authorized the sender of the message via some mechanism.}
 
-    \textit{Fabian Vogelsteller, author of the ERC-20 standard}
+    \textit{(Fabian Vogelsteller, author of the ERC-20 standard)}
 \end{quote}
 
 The functionality of the ERC-20 token standard, including the \texttt{approve}, \texttt{transfer}, \texttt{allowance}, and \texttt{transferFrom} methods, is illustrated in Figure 
@@ -1124,7 +1090,7 @@ validity of the sender's address, are omitted for simplicity.
     \label{fig:uml_erc20_methods}
 \end{figure}
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 
 \section{OpenZeppelin, a secure library for smart contracts}
@@ -1137,19 +1103,19 @@ implementing several standards tokens such as ERC-20. In the EIP-20 \cite{eth_er
 
 
 \begin{quote}
-   \textit{There are already plenty of ERC20-compliant tokens deployed on the Ethereum network. Different implementations have been written by various teams that have different trade-offs: from gas saving to improved security.}
+   \textit{There are already plenty of ERC20-compliant tokens deployed on the Ethereum network. Various teams have written different implementations with different trade-offs: from gas saving to improved security.}
 
 
-   \textit{Fabian Vogelsteller, author of the ERC-20 standard}
+   \textit{(Fabian Vogelsteller, author of the ERC-20 standard)}
 \end{quote}
 
 
 By leveraging the work with OpenZeppelin, our ERC-20 token implementation can benefit from the following advantages:
 \begin{itemize}
-\item \textbf{Enhanced Security:} OpenZeppelin is widely recognized for its focus on security best practices. The library does regular audits and updates to address security issues, significantly reducing the risk of vulnerabilities in our smart contracts.
+\item \textbf{Enhanced Security:} OpenZeppelin has been widely recognized for its focus on security best practices. In addition, the library does regular audits and updates to address security issues, significantly reducing the risk of vulnerabilities in our smart contracts.
 \item \textbf{Community Trust:} OpenZeppelin's smart contract components have been extensively deployed and utilized by the Ethereum community in numerous projects. By utilizing battle-tested code, we can tap into the collective knowledge and experience of the community, ensuring the quality and reliability of our ERC-20 token implementation.
 \item \textbf{Compliance with Standards:} OpenZeppelin provides compliant implementations of popular token standards, including ERC-20 and ERC-721. This ensures that our smart contracts seamlessly integrate with the broader Ethereum ecosystem, enabling interoperability with other decentralized applications (dApps) and wallets.
-\item \textbf{Code Reusability:} OpenZeppelin's modular and reusable smart contract components enable us to save time and effort. By leveraging the audited codebase, we can focus on implementing the specific business logic and features required for our ERC-20 token rather than starting from scratch.
+\item \textbf{Code Reusability:} OpenZeppelin's modular and reusable smart contract components enable us to save time and effort. In addition, by leveraging the audited codebase, we can focus on implementing the specific business logic and features required for our ERC-20 token rather than starting from scratch.
 \end{itemize}
 For instance, one notable advantage of utilizing OpenZeppelin is the mitigation of common security pitfalls. The library incorporates best practices for secure smart contract development, 
 such as protection against integer overflow/underflow and reentrancy attacks \cite{solidity_reeantrency_attack}. By relying on OpenZeppelin, we can avoid the potential introduction of 
@@ -1165,7 +1131,7 @@ by inheriting from the \texttt{ERC20} and \texttt{ERC20Detailed} contracts. The 
 provide information about the token. Another example is the \texttt{ERC20Capped} contract, which provides a way to cap the maximum supply of the token. This can be useful for
 implementing a fixed supply token or for limiting the token's total supply to a certain amount.
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 \section{Truffle, a development environment for Ethereum}
 \label{sec:ch2_truffle}
@@ -1182,7 +1148,7 @@ We can cite the following advantages of using Truffle:
   \item \textbf{Simple and Easy to Use:}  Truffle simplifies the development workflow by providing a suite of command-line tools and a project structure that
         organizes our smart contract code, tests, and deployment configurations. The development lifecycle is, therefore, easier to manage and maintain.
   \item \textbf{Automated Smart Contract Compilation and Deployment:} Truffle automatically compiles our smart contracts and deploys them to the Ethereum network.
-        It provides a configuration file that allows us to define the network to deploy to, the smart contracts to deploy and manage the contract migration across various
+        It provides a configuration file that allows us to define the network to deploy to, the smart contracts to deploy, and manage the contract migration across various
         stages of development or network.
   \item \textbf{Automated Smart Contract Testing:} Truffle provides a built-in testing framework that allows us an easier way to create and execute test cases
         for our smart contracts. The tests are written in JavaScript and can be run against any Ethereum network. It ensures that our smart contracts behave as expected
@@ -1204,7 +1170,7 @@ We can cite the following advantages of using Truffle:
 Therefore, by using Truffle, we can significantly reduce the time and effort required to develop, test and deploy, enhancing our smart contract development experience.
 
 
-% ----------------------------------------------------------------------------- DONE
+% ----------------------------------------------------------------------------- DONE DONE
 
 
 \section{Web3, a library for interacting with the Ethereum network}
@@ -1213,9 +1179,7 @@ Therefore, by using Truffle, we can significantly reduce the time and effort req
 After the development of the smart contract with Truffle, we need to interact from a front-end perspective with the Ethereum network where our
 smart contract is deployed. As a result, we need a solution to interact with the Ethereum network from our front-end application, which is
 developed for web browsers. That is where the solution of web3 \cite{eth_web3} comes in. The web3 concept emerged as a way to interact with
-the next generation of the internet that aims to decentralize the web from the current client-server model\footnote{The client-server model is a
-   distributed application structure that partitions tasks or workloads between the providers of a resource or service, called servers, and service
-   requesters, called clients.}. It emphasizes a web where users control their data, digital assets, and online interactions.
+the following internet generation that aims to decentralize the web from the current client-server model. It emphasizes a web where users control their data, digital assets, and online interactions.
 
 
 The term \textit{Web3} gained popularity in 2014, with the advent of the Ethereum blockchain, which introduced the concept of smart contracts
@@ -1238,23 +1202,14 @@ the back-end from the decentralized world of Ethereum. With Web3.js, we can conn
 data, all within our front-end application using JavaScript.
 
 
-It enables us to build dApps that can leverage all the advantages of the Ethereum blockchain. For example, if we integrate Web3.js into our front-end application,
-we can allow a company to manage its supply chain using a dApp with direct access to the Ethereum network. It enables the company to
-interact with smart contracts, which means that they can manage their digital assets, such as tokens,  and participate in the decentralized finance (DeFi)\footnote{
-   Decentralized finance (DeFi) is a blockchain-based form of finance that does not rely on central financial intermediaries such as brokerages,
-   exchanges, or banks to offer traditional financial instruments and instead utilizes smart contracts on blockchains, the most common being Ethereum.} applications.
+With Web3, we can develop dApps to connect our application to the Ethereum blockchain. For example, if we integrate Web3.js into our front-end application,
+we can allow a company to manage its supply chain using a dApp with direct access to the Ethereum network. Furthermore, it enables the company to
+interact with smart contracts, which means they can manage their digital assets, such as tokens,  and participate in the decentralized finance (DeFi) applications.
 
 
 Therefore, utilizing Web3.js in our front-end application unlocks the possibilities for our platform, including peer-to-peer payments, decentralized
 governance, and secure data management. For building our decentralized financial platform for international settlements, web3.js is the crucial component that allows us to
 seamlessly integrate Ethereum functionalities into our front-end application and provide users with a better experience.
 
-
-
-
-
-
-
-
-% -----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------- DONE DONE
 
