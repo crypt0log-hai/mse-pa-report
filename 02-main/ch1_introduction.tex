@@ -1,9 +1,10 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-This section aims to provide an overview of the context of the project, the state of the art and the project's objectives. It introduces to the
+This section aims to provide an overview of the context of the project, the state of the art, and the project's objectives. It introduces the
 problem of current payment systems and the potential of blockchain technology to address some of the limitations of these systems. It also presents the
 objectives of the project and the methodology that will be used to achieve them.
+
 
 \minitoc
 
@@ -14,98 +15,82 @@ objectives of the project and the methodology that will be used to achieve them.
 \section{Context}
 \label{sec:ch1_context}
 
-% Explain how treaditionnal payment systems work and these limitations
-% Cite as example the case of hawala payment system
+The exchange of goods and services has been a part of the beginning of human society throughout our history. It results in the creation of various payment methods
+to facilitate transactions. From the barter system in the early days to the introduction of currency in the roman empire, humans
+have always found ways for making transactions with each other in a fair trade. 
+Nowadays, the most common payment methods are through bank systems, which are based on the use of fiat currencies. However these traditional payment systems
+suffer high transaction costs, lengthy settlement times, and, most important, transparency.
 
-From the beginning of time, humans have been exchanging goods and services. In the early days, people traded goods
-directly without any intermediary. This is called a barter system. However, this system had several limitations. As societies progressed,
-the introduction of currency marked a significant development in facilitating transactions. Various payment methods emerged from the Roman Empire to the medieval era, gradually shaping the commerce landscape.
+High transaction costs associated with traditional systems, such as fees charged by financial institutions for international transactions,
+impose a financial burden on businesses and individuals. Moreover, the lengthy settlement times for
+transactions, especially international ones, create delays and hinder the smooth flow of funds in a globalized world.
 
-
-However, even with the advancement of technology, the current and modern payment systems still have several limitations. One
-of these limitations is the high transaction costs associated with traditional payment systems. For example, financial institutions
-such as banks charge a fee for every transaction, particularly for international transactions (e.g. exchange of two different currencies). As a result, the cost of sending money impacts the
-flow of funds and imposes a burden of expense on businesses and individuals.
-
-
-Furthermore, the current payment systems are also characterised by lengthy settlement times. A transaction can take several days
-to be processed and settled. This is particularly true for international transactions, which can take up to 5 days to be processed. These delays can be
-problematic for businesses that need to make payments quickly in a more connected and globalised world.
+The challenge is more transparency in traditional payment systems, impacting the trust between parties. Indeed,
+multiple intermediaries or third parties can be involved in financial transactions, rendering the transactions unclear. Moreover, this opacity opens
+the door to fraud, errors, and illegal activities, posing risks to businesses and individuals.
 
 
-The most significant issue is more transparency with the current payment systems. Financial transactions often involve multiple intermediaries
-and third parties, making tracking and verifying transactions difficult. This lack of transparency can lead to fraud, errors and illegal activities, which can be
-costly for businesses and individuals.
+While alternative payment systems like the Hawala system have emerged in certain regions, they also have limitations. Based on trust and personal relationships, the Hawala system offers low-cost and faster transactions, particularly in areas lacking access to formal banking services. However, it lacks scalability and regulatory systems, raising concerns about transparency and potential risks associated with fraud and illegal activities.
 
 
-In some regions, alternative payment systems exist that people use to send money. One of these systems is called
-the \textit{Hawala payment system}. This system is used in the Middle East, Africa and Asia. It is a traditional system based on
-trust and honour wherein individuals rely on a network of brokers to transfer money without physically moving it. This system
-has gained prominence in certain regions due to its low cost, particularly in rural areas lacking access to formal banking services.
-These individuals prefer to rely on trusted intermediaries to transfer money rather than using traditional payment systems.
+Overall, traditional payment systems have cost, settlement times, and transparency limitations. Cryptocurrencies and blockchain technology offer a
+a viable alternative that addresses these challenges.
 
-
-Whereas the Hawala payment system offers a low-cost and faster transaction time compared to traditional payment systems,
-there are still some limitations. One of these limitations is the need for more regulation and transparency. The formal documentation of transactions
-raises concerns about the potential for fraud and illegal activities. Furthermore, the reliance on personal relationships
-and trust limit the system's scalability. As a result, the Hawala payment system could be more suitable for large-scale transactions.
-
-% Conclude that the objective for a for international settlements is to find a payment system that use is own currency and that is fast, cheap and secure
-
-In conclusion, international settlements can not rely on traditional payment systems due to their high transaction costs, lengthy settlement times and lack of transparency.
-They need to find a payment system that is fast, cheap and secure. That is where cryptocurrencies and blockchain technology come to offer a solution to these problems.
 
 \section{State of the art}
 \label{sec:state_of_the_art}
 
 % Introduce the concept of blockchain and cryptocurrencies
 
-Blockchain technology has become essential for designing and developing secure exchange systems between two or multiple parties.
-As the growth of multilateral trade and globalization increases, the need for a secure and transparent payment system is becoming more critical to
-settling currencies. Blockchain-based payment systems can provide a solution where virtual currencies (cryptocurrencies) can be used to settle transactions
-between couples of national currencies. The first cryptocurrency was Bitcoin, created in 2008 \cite{online_satoshinakamoto} by an unknown person or group under the pseudonym Satoshi Nakamoto. Since then, thousands of
-cryptocurrencies have been created. The most popular cryptocurrencies are Bitcoin, Ethereum, Monero, Litecoin and Ripple.
+This chapter provides an overview of blockchain technology's state-of-the-art and critical features. It also addresses the challenges 
+associated with international settlements, as discussed in Section \ref{sec:ch1_context}, and explores how blockchain technology, specifically 
+the Ethereum blockchain, can offer potential solutions. The focus is on developing a new cryptocurrency token shaped for international settlements, 
+taking advantage of the capabilities and features provided by the Ethereum blockchain. 
 
+\subsubsection{Blockchain technology and its features}
 
-This section aims to provide a state of the art of overview of blockchain technology and its features. It also presents the current challenges
-of international settlements (as explained in section \ref{sec:ch1_context}) and how blockchain technology can address some of these challenges with a focus on the Ethereum blockchain for
-developing a new cryptocurrency token for international settlements.
+Blockchain technology has become essential for designing and developing secure exchange systems between multiple parties. 
+As the growth of multilateral trade and globalization increases, the need for a secure and transparent payment 
+system is becoming more critical to settling currencies. Blockchain-based payment systems can provide a solution where virtual currencies 
+(cryptocurrencies) can settle transactions between pairs of national currencies. The first cryptocurrency was Bitcoin, created in 
+2008 \cite{online_satoshinakamoto} by an unknown person or group under the pseudonym Satoshi Nakamoto. We can name Bitcoin
+, the first decentralized cryptocurrency introduced the concept of a decentralized and distributed system for 
+financial transactions. After Bitcoin, other cryptocurrencies have been created since then, such as Ethereum, Monero, Litecoin, etc.
 
-\begin{enumerate}
-    \item \textbf{Blockchain technology and its features}:
-          A blockchain is a decentralized and distributed digital ledger that enables the secure and transparent transfer of digital assets
-          between two parties without needing a trusted intermediary. The immutability of the blockchain is achieved through
-          cryptography and consensus algorithms, providing a high level of security and transparency. References such as \textit{Blockchain Basics} by
-          Daniel Dresched \cite{Drescher2017-hj} and \textit{Mastering Bitcoin} by Andreas Antonopoulos \cite{Antonopoulos2017-et} provide a good introduction
-          to blockchain technology.
-    \item \textbf{Current international settlements and their challenges:}
-          Traditional international settlements suffer from limitations such as high transaction costs, lengthy settlement times
-          and lack of transparency. These limitations are due to the reliance on trusted intermediaries and third parties to process
-          and verify transactions. In his book \textit{Payment Systems and Other Financial Transactions} \cite{Danielsson2013-cw}, Jon Danielsson offers
-          valuable insights into the current challenges of international settlements.
+The blockchain acts like a digital ledger that enables the secure and transparent transfer of digital assets
+between two parties without needing a trusted intermediary. The immutability of the blockchain is achieved through
+cryptography and consensus algorithms, providing high security and transparency. References such as \textit{Blockchain Basics} by
+Daniel Dresched \cite{Drescher2017-hj} and \textit{Mastering Bitcoin} by Andreas Antonopoulos \cite{Antonopoulos2017-et} provide an excellent introduction
+to blockchain technology.
 
-    \item \textbf{Blockchain technology versus these challenges:}
-          Blockchain technology can offer some promising solutions to the current challenges of international settlements. Due to its decentralised and distributed nature, it can provide
-          a low-cost, fast and secure payment system. Settlements can be executed directly
-          between two parties reducing the need for intermediaries and third parties and thus reducing the transaction costs. The immutability and
-          transparency of the blockchain can also provide real-time visibility of transactions, reducing the risk of fraud and illegal activities.
-          In the book of \textit{Blockchain Revolution} by Don Tapscott and Alex Tapscott \cite{Tapscott2018-ed}, the authors explore the potential of blockchain
-          technology to transform the financial sector and the economy.
+\subsubsection{Current international settlements and their challenges}
+Traditional international settlements must be more robust to limitations such as high transaction costs, lengthy settlement times
+, and lack of transparency. These limitations are due to the reliance on trusted intermediaries and third parties to process
+and verify transactions. In his book \textit{Global Financial Systems} \cite{Danielsson2013-cw}, Jon Danielsson offers
+valuable insights into the current challenges of international settlements.
 
-    \item \textbf{Ethereum and smart contracts:}
-          The Ethereum blockchain is a popular platform among developers due to its ability to develop Decentralized Applications (DApps) and Smart Contracts.
-          A smart contract is a digital one stored on the blockchain and executed automatically when certain conditions are met, ensuring automated
-          and transparent settlement transactions. The book of \textit{Mastering Ethereum} by Andreas Antonopoulos and Gavin Wood \cite{Antonopoulos2018-wp} provides
-          in-depth insights into the potential of Ethereum blockchain and Smart Contracts development.
-\end{enumerate}
+\subsubsection{Blockchain technology versus these challenges}
+
+Blockchain technology can offer some promising solutions to the current challenges of international settlements. Due to its decentralized and distributed nature, it can provide
+a low-cost, fast, and secure payment system. Settlements can be executed directly
+between two parties reducing the need for intermediaries and third parties and thus reducing the transaction costs. The immutability and
+transparency of the blockchain can also provide real-time visibility of transactions, reducing the risk of fraud and illegal activities.
+In the book of \textit{Blockchain Revolution} by Don Tapscott and Alex Tapscott \cite{Tapscott2018-ed}, the authors explore the potential of blockchain
+technology to transform the financial sector and the economy.
+
+\subsubsection{Ethereum and smart contracts}
+The Ethereum blockchain is the second most popular blockchain after Bitcoin among developers with its new features allowing to develop smart contracts and the concept of
+Decentralized Applications (dApps). A smart contract is a digital one stored on the blockchain and executed automatically when certain conditions are met, ensuring automated
+and transparent settlement transactions. The book of \textit{Mastering Ethereum} by Andreas Antonopoulos and Gavin Wood \cite{Antonopoulos2018-wp} provides
+in-depth insights into the potential of Ethereum blockchain and Smart Contracts development.
+
 
 \section{Objectives of this project}
 
 Our objective aims to develop a new cryptocurrency token for international settlements using the Ethereum blockchain. The token will be used to settle transactions
-between two or multiple parties. For this project, to have a real case, we will consider the case of a company that wants to use its cryptocurrency token to settle transactions with its suppliers, customers or employees.
+between two or multiple parties. For this project, to have a real case, we will consider the case of a company that wants to use its cryptocurrency token to settle transactions with its suppliers, customers, or employees.
 To project the scenario further, we will consider the case of a company that can exchange its cryptocurrency token with other cryptocurrencies or national currencies (e.g. USD) on a secure Blockchain-based inter-currencies settlement
 platform.
-
 
 
 

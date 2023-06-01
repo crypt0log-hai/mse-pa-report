@@ -2,7 +2,7 @@
 \label{ch:analysis}
 
 This chapter is a comprehensive review of the tools, frameworks, and standards available to us. By conducting this analysis, we can identify the project constraints, evaluate the feasibility,
-and make informed decisions about the project's design and implementation. Our project focuses on building a decentralized platform for international
+and make decisions about the project's design and implementation. Our project focuses on building a decentralized platform for international
 settlements to provide a more efficient and cost-effective alternative to the current international settlement systems. As part of this analysis,
 we aim to create our own cryptocurrency token digitally representing value within our platform. Additionally, our platform must be
 able to facilitate the exchange of our cryptocurrency token for other cryptocurrencies and fiat currencies.
@@ -32,7 +32,7 @@ and deploying our decentralized platform.
 
 Finally, section \ref{sec:ch2_web3} introduces Web3.js, a JavaScript library allowing our web application to interact with the Ethereum network.
 We explain why web3.js is essential for our project, as it simplifies integrating Ethereum functionality into our frontend web application.
-This allows us seamless interaction with our cryptocurrency token and the Ethereum network.
+This allows us to interact with our cryptocurrency token and the Ethereum network.
 
 % ----------------------------------------------------------------------------- DONE
 
@@ -95,7 +95,7 @@ An Ethereum account contains four fields:
 \label{subsec:messages_and_transactions}
 
 
-In Ethereum, there are two types of messages, (1) \textit{messages} and (2) \textit{transactions}. A message is a message that is sent from one contract
+In Ethereum, there are two types of messages, (1) \textit{messages} and (2) \textit{transactions}. A message is data that is sent from one contract
 account to another contract account. A transaction is a signed data package sent from an externally owned account. In this data package, there are
 six fields, (1) the recipient of the transaction, (2) the signature of the transaction, (3) the amount of Ether to transfer,
 (4) an optional data field, (5) a \texttt{STARTGAS} value, and (6) a \texttt{GASPRICE} value. The \texttt{STARTGAS} value is the maximum number of computational
@@ -413,8 +413,7 @@ contract SimpleStorage {
 \end{listing}
 
 In the Listing \ref{lst:state_variable}, the contract \texttt{SimpleStorage} has a state variable \texttt{storedData} of type \texttt{uint256}.
-By utilizing state variables, Solidity provides a powerful mechanism for managing and preserving the state of contracts on the blockchain, facilitating the development of 
-robust and feature-rich decentralized applications.
+By utilizing state variables, Solidity provides a powerful mechanism for managing and preserving the state of contracts on the blockchain, facilitating the development of decentralized applications.
 
 % ----------------------------------------------------------------------------- DONE
 
@@ -709,7 +708,7 @@ of tokens in different applications.
 
 In the following subsections, we describe the concept of a token, providing a general overview of the token standards. Then, we present
 the Ethereum Improvement Proposals created to define the token standards. Finally, we explore some of the cryptocurrency ecosystem's most popular
-token standards and innovations.
+token.
 
 
 % ----------------------------------------------------------------------------- DONE
@@ -876,7 +875,7 @@ The listing \ref{lst:erc20_interface} shows the ERC20 interface in Solidity repr
 \end{itemize}
 
 All balances and amount parameters are represented on 256 bits unsigned integers, thus the maximum amount of tokens that can be handled is $2^{256} - 1$. The point is to make that some functions are declared as \texttt{view} functions
-like \mintinline{solidity}|name()|, \mintinline{solidity}|symbol()|, etc. It indicates that the function does not modify the state of the contract and does not consume any gas. The \texttt{view} functions are free to call and do not require gas.
+like \mintinline{solidity}|name()|, \mintinline{solidity}|symbol()|, etc. It indicates that the function does not modify the state of the contract and does not consume any gas. Therefore. the \texttt{view} functions are free to call and do not require gas.
 It can be compared to a getter function in object-oriented programming that returns a private variable's value. Another critical point is the \mintinline{solidity}|decimal()| function. When working
 with tokens, we usually work with a very small amount, representing a fraction of a token. For example, if one owns 4 UET tokens, transferring 3.49 UET to another address may be necessary, and keeping 0.51 UET in the sender's address. The EVM does not support floating point numbers, so Solidity allows us to define the integer number values of the token that should be displayed as a fraction of a token.
 It can be a problem because if one wants to transfer 3.49 UET, the number of tokens to transfer can be only 3 UET or 4 UET.
