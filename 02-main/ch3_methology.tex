@@ -2,7 +2,7 @@
 \label{ch:methodology}
 
 This chapter describes the methodology and models used to design and implement our international settlement system to achieve
-the objectives of this project. We focus on the creation of a decentralized and secure platform for token exchange. We use a systematic methodology
+the objectives of this project. We focus on the creation of a decentralized and secure platform for token exchange. We use a methodology
 and develop two proof-of-concept implementations. These proofs of concepts serve as concrete examples to demonstrate the functionalities and
 feasibility of our proposed solution.
 
@@ -26,11 +26,12 @@ of its potential to replace the current financial system.
 
 
 
-This section presents the design and implementation of our first proof of concept, which entails the development of a digital asset wallet
-for our international settlement system. The digital asset is a fungible "Universal Exports Token" (UET).
+This section presents the design and implementation of our first proof of concept, which demonstrates the development of a digital asset wallet
+for our international settlement system. The digital asset represents a smart contract, more specifically our virtual currency which is a fungible
+token named "Universal Exports Token" (UET).
 
 
-To simplify the design and implementation of the smart contract, we leverage the ERC20 standard \cite{eth_erc20} in conjunction with
+To simplify the design and implementation of the smart contract, we leverage the ERC20 standard \cite{eth_erc20} with
 the OpenZeppelin library \cite{openzeppelin_erc20}. This combination reduces the complexity involved in creating the smart contract. Once the smart contract is deployed, we build a blockchain application that serves as a digital asset wallet.
 The application is developed using the Truffle framework \cite{truffle} and the ReactJS framework \cite{react}. These frameworks enable
 us to seamlessly connect to a local Ethereum network facilitated by Ganache-cli \cite{trufflesuite_ganachecli}. This local network
@@ -43,11 +44,8 @@ provides a controlled environment for testing and interaction with the digital a
 \subsection{Token Smart Contract}
 
 For our digital asset, we create a smart contract in Solidity \cite{ethereum_solidity_doc} that implements
-the ERC20 standard \cite{eth_erc20} using the OpenZeppelin library \cite{openzeppelin_erc20}. We are using the
-latest version of the OpenZeppelin library,more precisely the  version 4.8.3, which is compatible with Solidity version 0.8.0
-in the writing of this report.
-
-The diagram in Figure \ref{fig:uetoken_classdiag} shows the class diagram of the \textit{UEToken} smart contract to have a better understanding of the design
+the ERC20 standard \cite{eth_erc20} using the OpenZeppelin library \cite{openzeppelin_erc20}.
+The diagram in Figure \ref{fig:uetoken_classdiag} shows the class diagram of the \textit{UEToken} to have a better understanding of the design
 of the smart contract. The diagram shows the inheritance of the \textit{UEToken} smart contract from the \textit{ERC20Capped} and \textit{Ownable}
 smart contracts. The \textit{ERC20Capped} contract inherits from the \textit{ERC20} contract, which implements the ERC20 standard. This design choice allows us to leverage the features and security enhancements the OpenZeppelin library provides, ensuring a standardized implementation of the ERC20 standard and incorporating best practices for
 secure smart contract development.
@@ -56,7 +54,7 @@ secure smart contract development.
 \input{02-main/figures/ch3/uetoken_classdiag.tex}
 
 
-Now that we have a better understanding of the design of the smart contract, we can see the implementation of the \textit{UEToken} smart contract in Listing \ref{lst:uetoken_contract}.
+Now that we have a better understanding of the design of the smart contract, we can delve into the details of the \textit{UEToken} smart contract.
 The code snippet in Listing \ref{lst:uetoken_contract} represents the Solidity source code of our \textit{UEToken} smart contract.
 
 
@@ -67,26 +65,26 @@ Line 3 of the code snippet in Listing \ref{lst:uetoken_contract} shows the Solid
 we are using the latest version of Solidity, version 0.8.0.
 
 
-Lines 5 and 6 illustrate the import of the \textit{ERC20Capped} and \textit{Ownable} smart contracts from the OpenZeppelin library. Let us dive
-into the \textit{ERC20Capped} smart contract to understand the design of the smart contract. In figure \ref{fig:erc20Capped_classdiag}, we can show
-the design of the \textit{ERC20Capped} smart contract in detail. As illustrated in Figure \ref{fig:uetoken_classdiag}, the \textit{ERC20Capped} smart contract
-inherits from the \textit{ERC20} smart contract. ERC20Capped is an abstract contract that inherits from the \textit{ERC20} smart contract and overrides
-the \texttt{\_mint} function to add a token supply cap by verifying that the total supply of tokens does not exceed the cap. The \textit{ERC20Capped} smart contract
-is designed to be inherited by other smart contracts, which is the case for our \textit{UEToken} smart contract.
+Lines 5 and 6 illustrate the import of the \textit{ERC20Capped} and \textit{Ownable} contracts from the OpenZeppelin library. Let us dive
+into the \textit{ERC20Capped} contract to understand how it is designed. In figure \ref{fig:erc20Capped_classdiag}, we can show
+the design of the \textit{ERC20Capped} contract in detail. As illustrated in Figure \ref{fig:uetoken_classdiag}, the \textit{ERC20Capped} contract
+inherits from the \textit{ERC20} contract. ERC20Capped acts as an abstract contract that inherits from the \textit{ERC20} and overrides
+the \texttt{\_mint} function to add a token supply cap by verifying that the total supply of tokens does not exceed the cap.
 
 
 \input{02-main/figures/ch3/erc20capped_classdiag.tex}
 
 
-By extending the \texttt{ERC20Capped} contract, our token has a capped supply, meaning that the total supply of tokens cannot exceed a specified limit. By setting this cap on the supply of tokens, we control the maximum number of tokens that can never be created. It can be helpful in some use cases, such as creating a stablecoin, where the supply of tokens is backed by a reserve of assets, or in maintaining a fixed token economy. In our use case, we are not backing our token with a reserve of assets or fiat currency, but we are using the cap to limit the supply of tokens to a maximum number of tokens. In our use case, we set the cap to 1 billion tokens, the maximum number of tokens that can be minted. This provides us transparency and trust by incorporating this cap to token holders and users of our token. This can build trust and confidence in the token's ecosystem. The cap is set in the constructor of the \texttt{UEToken} smart contract, as shown in Listing \ref{lst:uetoken_contract}.
+By extending the \texttt{ERC20Capped} contract, our token has a capped supply, meaning that the total supply of tokens cannot exceed a specified limit. By setting this cap on the supply of tokens, we control the maximum number of tokens that can never be created. It can be helpful in some use cases, such as creating a stablecoin, where the supply of tokens is backed by a reserve of assets, or in maintaining a fixed token economy. In our use case, we are not backing our token with a reserve of assets or fiat currency, but we are using the cap to limit the supply of tokens to a maximum number of tokens. Therefore, we set the cap to 1 billion tokens, the maximum number of tokens that can be minted. This provides us transparency and trust by incorporating this cap to token holders and users of our token.
+The cap is set in the constructor of the \texttt{UEToken} smart contract, as shown in Listing \ref{lst:uetoken_contract}.
 The other smart contract we import from the OpenZeppelin library is the \texttt{Ownable} smart contract. We illustrate in Figure \ref{fig:ownable_classdiag} the detailed design of the OpenZeppelin \texttt{Ownable} smart contract.
 
 \input{02-main/figures/ch3/ownable_classdiag.tex}
 
 
-The \texttt{Ownable} contract implements a direct access control mechanism in our \texttt{UEToken} smart contract. Although, by incorporating the
-\texttt{Ownable} smart contract into our token implementation, we can grant exclusive access to specific functions, such as the \texttt{mint} function used for creating new tokens, through inheritance from the \texttt{Ownable} contract, our token uses the \texttt{onlyOwner} modifier,
-which limits the execution of these functions to the contract owner. Consequently, only the owner who deployed the smart contract can execute
+The \texttt{Ownable} contract implements a direct access control mechanism in our \texttt{UEToken} smart contract. By inheriting the
+\texttt{Ownable} smart contract into our token implementation, we can grant exclusive access to specific functions, such as the \texttt{mint} function used for creating new tokens.
+Our token uses the \texttt{onlyOwner} modifier, which limits the execution of these functions to the contract owner. Consequently, only the owner who deployed the smart contract can execute
 the \texttt{mint} function, as it is annotated with the \texttt{onlyOwner} modifier. In our case, we aim to demonstrate the controlled minting
 of new tokens exclusively by the contract owner, preventing the possibility of unauthorized minting that could devalue the tokens.
 By default, the \texttt{Ownable} contract sets the contract owner in its constructor. However, the ownership can be transferred by calling the
@@ -95,11 +93,16 @@ scenarios where specific critical functions, such as the \texttt{mint} function,
 owner.
 
 
-Lastly, in line 11 of the code snippet in Listing \ref{lst:uetoken_contract}, the name and symbol of the token are defined in the constructor using the \texttt{ERC20} constructor inherited from the \textit{ERC20Capped} contract. As explained in the previous chapter (Chapter \ref{ch:analysis}), specifically in Section \ref{sec:erc20}, the ERC20 token provides a standard interface for fungible tokens. Figure \ref{fig:uetoken_classdiag} illustrates the class diagram of our token smart contract. The \texttt{ERC20} constructor accepts the name and symbol of the token as parameters, which are set to \texttt{UEToken} and \texttt{UE}, respectively. Additionally, our constructor takes an \texttt{initialSupply} parameter, which sets the initial supply of tokens upon deployment of the smart contract.
+Lastly, in line 11 of the code snippet in Listing \ref{lst:uetoken_contract}, the name and symbol of the token are defined in the constructor 
+using the \texttt{ERC20} constructor inherited from the \textit{ERC20Capped} contract. As explained
+ in the previous chapter (Chapter \ref{ch:analysis}), specifically in Section \ref{sec:ch2_erc20}, 
+ the ERC20 token provides a standard interface for fungible tokens. In Figure \ref{fig:uetoken_classdiag}, the \texttt{ERC20} constructor accepts the name and symbol of the token as parameters, which are set to \texttt{UEToken} and \texttt{UE}, respectively. Additionally, our constructor takes an \texttt{initialSupply} parameter, which sets the initial supply of tokens upon deployment of the smart contract.
 
-In line 12, we invoke the \texttt{\_mint} function from the \textit{ERC20Capped} contract to mint the initial supply of tokens. The \texttt{\_mint} function requires the address of the account to be minted (i.e., the contract owner) and the number of tokens to be minted (i.e., the initial supply of tokens). Furthermore, in our contract (line 15), we create the \texttt{mint} function, utilizing the \texttt{\_mint} private function from the \textit{ERC20Capped} contract. The \texttt{mint} function accepts the account's address to be minted and the number of tokens to be minted as parameters. The \texttt{onlyOwner} modifier is applied to the \texttt{mint} function to restrict its execution solely to the contract owner. Our platform aims to demonstrate the contract owner's minting of new tokens exclusively.
+In line 12, we invoke the \texttt{\_mint} function from the \textit{ERC20Capped} contract to mint the initial supply of tokens. The \texttt{\_mint} function requires the address of the account to be minted (i.e., the contract owner) and the number of tokens to be minted (i.e., the initial supply of tokens). Furthermore, in our contract in line 15, we create the \texttt{mint} function, utilizing the \texttt{\_mint} private function from the \textit{ERC20Capped} contract. The \texttt{mint} function accepts the account's address to be minted and the number of tokens to be minted as parameters. The \texttt{onlyOwner} modifier is applied to the \texttt{mint} function to restrict its execution solely to the contract owner. Our platform aims to demonstrate the contract owner's minting of new tokens exclusively.
 
-In line 19, we override the \texttt{decimals} function from the \textit{ERC20} contract to set the number of decimals to 2. By default, the \texttt{decimals} function returns 18 decimals. However, for our token representing standard currency (e.g., Euro), we set the number of decimals to 2 to align with the typical decimal representation of currency. This adjustment ensures compatibility with financial calculations and representations. This completes the necessary code for our proof of concept token smart contract. While we could have included additional functionality, such as a \texttt{burn} function for burning tokens, our focus remains on the primary feature of our platform, which is the exchange of tokens between users. The complete OpenZeppelin code can be found in the GitHub repository \cite{openzeppelin_github}.
+In line 19, we override the \texttt{decimals} function from the \textit{ERC20} contract to set the number of decimals to 2. By default, the \texttt{decimals} function returns 18 decimals. However, for our token representing standard currency (e.g., Euro), we set the number of decimals to 2 to align with the typical decimal representation of currency. This adjustment ensures compatibility with financial calculations and representations. 
+
+All these explications complete the necessary code for our proof of concept token smart contract. While we could have included additional functionality, such as a \texttt{burn} function for burning tokens, our focus remains on the primary feature of our platform, which is the exchange of tokens between users. The complete OpenZeppelin code can be found in the GitHub repository \cite{openzeppelin_github}.
 
 Our fully functional code serves as a template for creating other ERC20 tokens. For instance, we can create a stablecoin called \texttt{USDC} (USD Coin) by modifying the name, symbol, and maximum supply of tokens. Additionally, the return value of the \texttt{decimals} function can be adjusted to set the desired number of decimal places for the token. The extensibility of our token smart contract is one of the advantages of adhering to the ERC20 standard. We can leverage our token smart contract as a foundation to create multiple tokens according to our requirements.
 
@@ -174,7 +177,7 @@ us to simulate the Ethereum mainnet or testnet freely.
 
 We can start Ganache-CLI by running the following command:
 
-\begin{listing}[H]
+\begin{listing}[!ht]
     \begin{minted}[fontsize=\footnotesize]{shell}
 $ ganache-cli -m "other strike boat weekend address want pink oval sister cry excuse myth" --chainId 1 --networkId 1337 
 
@@ -245,7 +248,7 @@ blockchain we started with Ganache-CLI. Upon successful deployment, we can see i
 process, including the transaction hash, the contract address, the block number, and transaction details. We can then interact with the deployed contract
 using the contract address.
 
-To call to explain one functionality of our token from Truffle to verify that it works as expected, we can run the following command:
+To verify with Truffle that our token functionalities work as expected, we can run the following command:
 
 \begin{listing}[H]
     \begin{minted}[fontsize=\scriptsize]{shell}
@@ -272,9 +275,9 @@ from the blockchain, and finally, we call the \texttt{name()} function of the to
 \subsection{Frontend Development}
 \label{subsec:wallet_frontend}
 
-After the deployment of our new token contract on the blockchain network in the previous sections, we must develop a front-end application for interacting with this smart contract
+After the deployment of our new token contract on the blockchain network in the previous section, we must develop a front-end application for interacting with this smart contract
 acting as backend.
-For the proof-of-concept, we focus on creating a simple front-end application that allows us calls the core functionalities of our token, i.e., the smart contract functions.
+For the proof-of-concept, we focus on creating a simple front-end application acting like a wallet that allows us calls the core functionalities of our token, i.e., the smart contract functions.
 Thus, this section demonstrates an overview of the main components of our front-end application and how we interact with the token contract from the front.
 
 For the frontend development, we utilize React \cite{react}, a widely-used JavaScript library for building user interfaces. Additionally, we use the Web3.js \cite{eth_web3js}
@@ -283,11 +286,12 @@ library (refer to Section \ref{sec:ch2_web3}), which provides a collection of mo
 Web3.js is a package that can be installed using the Node Package Manager (NPM). It allows us to connect to an Ethereum network and interact with our deployed token contract within our front-end application. In addition, the library offers various modules to handle different tasks, such as contract instantiation, function calls,
 and even listening.
 
-We first connect with our web3 instance to initiate our development process. In our case, we rely on Metamask\footnote{Metamask is a browser extension that enables us to connect to an Ethereum network directly from our browser.} to connect to our local blockchain. Metamask injects a global variable called \texttt{web3} into the browser's window object.
+We first connect with our web3 instance to initiate our development process. In our case, we rely on Metamask\footnote{Metamask is a browser extension that enables us to connect to an Ethereum network directly from our browser.} to 
+connect to our local blockchain (Ganache). Metamask injects a global variable called \texttt{web3} into the browser's window object.
 
 We initialize our web3 instance by verifying the installation and unlocking of Metamask. Once confirmed, we instantiate our web3 instance using the \texttt{Web3} constructor. Below is a code snippet demonstrating our web3 initialization process:
 
-\begin{listing}[!ht]
+\begin{listing}[H]
     \begin{minted}[fontsize=\scriptsize]{javascript}
 import Web3 from 'web3';
 // Code snipped for brevity
@@ -331,7 +335,7 @@ of MetaMask and request the user's accounts. Once connected, we create a new ins
 
 To interact with our deployed token contract, we leverage the web3 instance. For instance, we can call various functions of our token contract, such as
 \texttt{name()}, \texttt{symbol()}, \texttt{totalSupply()}, and \texttt{balanceOf()}. This involves accessing the \texttt{methods} object of our
-token contract instance and invoking the respective functions. By retrieving the returned values, such as the token name (\texttt{UEToken}), symbol,
+token contract instance and invoking the respective functions. By retrieving the returned values, such as the token name \textit{Universal Export Token} (UET), symbol,
 total supply, and balance, we can update the state of our React component accordingly.
 
 
@@ -385,8 +389,7 @@ Next, we call the \texttt{transfer()} function of the token contract, passing th
 This section describes our second proof-of-concept, the development of a decentralized exchange (DEX) platform responsible for trading ERC20 tokens,
 as mentioned in the objectives of this project. Traditionally, trading exchanges are centralized, meaning that they are owned and operated by
 an authority for facilitating the trading between a buyer and a seller. This authority is responsible for posting a buy or sell order on behalf
-of the user where the order is visible to other users of the exchange. Once a match is found, the exchange executes the trade and updates the
-users' balances accordingly. This process is called an order book, where the exchange maintains a list of buy and sell orders
+of the user where the order is visible to other users of the exchange. This process is called an order book, where the exchange maintains a list of buy and sell orders
 submitted by users. Traders can submit orders to the order book, and the exchange will match the orders based on the price and quantity of the
 order. In the case of a match, the exchange will execute the trade and update the users' balances accordingly. In our proof-of-concept, we
 implement a decentralized version of this process. We remove the centralized authority and allow users to interact directly
@@ -405,9 +408,7 @@ In our project, we are building the following components:
 
 
 The UEToken is the token we created in the previous section and represents
-the base asset\footnote{The base asset is the asset that is being traded.} of our exchange. The USDC token is a stablecoin that is pegged to
-the US dollar 
-
+the base asset\footnote{The base asset is the asset that is being traded.} of our exchange.
 The USDC token is a stablecoin representing the fiat currency, the US dollar, in the form of a cryptocurrency where in theory, 1 USDC is always
 equal to 1 USD. Stablecoin represents the counter asset\footnote{The counter asset represents the asset we want against.} of our exchange. Due we
 are using our private Ethereum network, we need to simulate the USDC token. To do so, we create a new ERC20 token contract and mint 1000 USDC
@@ -689,7 +690,7 @@ emitted, we update the order book with the new orders and refresh the table to d
 \subsubsection{Buy and sell orders}
 
 
-The following method in our trading platform is the ability to place buy and sell orders. To place a buy order, call the \texttt{addBuy} function of the Orderbook
+The following method in our trading platform is the ability to place buy and sell orders. To place a buy order, we call the \texttt{addBuy/addSell} functions of the Orderbook
 smart contract. For example, the following code snippet shows how to place a buy order in the order book.
 
 \begin{listing}[H]
@@ -722,9 +723,9 @@ addBuy = async () => {
 \end{listing}
 
 In Listing \ref{lst:place_buy_order}, we start by getting the amount of UEToken and the buy price from the state of the trading platform. Then we call the
-\texttt{addBuy} function of the Orderbook smart contract with the amount of UEToken and the buy price as parameters. We also specify the account that is
+\texttt{addBuy} function of the front-end platform with the amount of UEToken and the buy price as parameters. We also specify the account that is
 placing the buy order. Then, we check if the \texttt{sells} array is empty, meaning there are no sell orders in the order book. If the \texttt{sells}
-is empty, then we skip the next step, looking for a matching sell order. We look for a matching sell order if the \texttt{sells} array is not empty. If we find a matching sell order, then we execute the trade.
+is empty, then we skip the next step, looking for a matching sell order. We look for a matching sell order if the \texttt{sells} array is not empty and if we find a matching sell order, then we execute the trade.
 
 
 For the empty, we first use the \texttt{approve} function of the USDC smart contract to approve the Orderbook smart contract to transfer the amount of USDC
@@ -780,8 +781,7 @@ snippet in Listing \ref{lst:place_buy_order} and Listing \ref{lst:execute_trade}
 
 \subsection{Scenario}
 
-
-In this section, we describe a scenario of how the trading platform interacts with the Orderbook smart contract. The scenario is illustrated in Figure
+In this section, we describe a scenario to make easier the understanding of how the trading platform interacts with the Orderbook smart contract. The scenario is illustrated in Figure
 \ref{fig:orderbook_seqdiag}. The sequence diagram shows the interaction between the Buyer (Alice), the Seller (Bob), the Platform, and
 the Orderbook smart contract while placing a buy order and executing a trade. The following steps describe the scenario as follows:
 

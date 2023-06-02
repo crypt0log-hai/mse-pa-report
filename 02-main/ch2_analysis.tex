@@ -3,36 +3,43 @@
 
 This chapter is a comprehensive review of the tools, frameworks, and standards available to us. By conducting this analysis, we can identify the project constraints, evaluate the feasibility,
 and decide on the project's design and implementation. Our project focuses on building a decentralized platform for international
-settlements to provide a more efficient and cost-effective alternative to the current global settlement systems. As part of this analysis,
+settlements to provide a more efficient and cost-effective alternative to global settlement systems. As part of this analysis,
 we aim to digitally create our own cryptocurrency token representing value within our platform. Additionally, our platform must be
 able to facilitate the exchange of our cryptocurrency token for other cryptocurrencies and fiat currencies.
+
 
 In section \ref{sec:ch2_ethereum}, we explore Ethereum as a decentralized application platform. We examine the Ethereum blockchain, its core features,
 architecture, and the Ethereum Virtual Machine (EVM) role, enabling the execution of smart contracts. This section is fundamental to our project
 as we will be using Ethereum as the foundation of our platform.
 
+
 In section \ref{sec:ch2_solidity}, we delve into Solidity, the primary programming language used to develop smart contracts on the Ethereum blockchain.
 We present its syntax, features, and how it facilitates the development of smart contracts of secure and robust smart contracts that will be used as the backend
 of our platform.
 
+
 In section \ref{sec:ch2_ethereum_token_standards}, we highlight the importance of token standards in the Ethereum ecosystem. We explore various token standards,
-such as ERC-20, ERC-223, ERC-721, and ERC-777, and how they are used to create tokens on the Ethereum blockchain, and evaluate which token standard is best
+such as ERC-20, ERC-223, ERC-721, and ERC-777, and how they are used to create tokens on the Ethereum blockchain and evaluate which token standard is best
 suited for our platform cryptocurrency token.
+
 
 In section \ref{sec:ch2_erc20}, we explore the ERC-20 token standard, the most widely used token standard in the Ethereum ecosystem. We analyze its features,
 methods and how it aligns with our project requirements for creating versatile and interoperable tokens for international settlements and token exchange.
+
 
 In section \ref{sec:ch2_openzeppelin}, we introduce OpenZeppelin, a reputable open-source framework for building secure smart contracts on the Ethereum blockchain.
 We discuss how it can enhance the security and reliability of our smart contracts implementation, providing us with a solid foundation for building our
 cryptocurrency token and ensuring a secure exchange of our token for other cryptocurrencies and fiat currencies.
 
+
 The section \ref{sec:ch2_truffle} explores Truffle, a development environment and testing framework for Ethereum. We discuss the advantages of Truffle
 for our project, including its ability to automate our smart contracts' compilation, deployment, and testing. It will aid us in efficiently developing
 and deploying our decentralized platform.
 
+
 Finally, section \ref{sec:ch2_web3} introduces Web3.js, a JavaScript library allowing our web application to interact with the Ethereum network.
 We explain why web3.js is essential for our project, as it simplifies integrating Ethereum functionality into our frontend web application.
-This allows us to interact with our cryptocurrency token and the Ethereum network.
+This library allows us to interact with our cryptocurrency token and the Ethereum network.
 
 % ----------------------------------------------------------------------------- DONE DONE
 
@@ -98,7 +105,7 @@ is willing to pay for each computational step. We explains with more details in 
 the \texttt{STARTGAS} and \texttt{GASPRICE} fields. 
 
 Bitcoin and Ethereum have a similar transaction structure, because they both have the first three fields in common. The optional data field has no function in Ethereum. The \texttt{STARTGAS} and \texttt{GASPRICE} fields are
-essential for preventing denial of service attacks. These fields are part of the anti-denial of the service model of Ethereum. The main goal of
+essential for preventing denial of service attacks. The main goal of
 the anti-denial of service model is to avoid situations where code execution is infinite or takes an extremely long time, accidentally
 or intentionally.
 
@@ -143,7 +150,7 @@ can call a function that, as a result, creates a message and call another functi
 \label{sec:evm}
 
 Smart contracts are described as a piece of code stored in the Ethereum blockchain world. To execute this code, we use a virtual machine called the Ethereum Virtual 
-machine (EVM) that works as a Turing-complete virtual machine. The EVM can only understand bytecode. Therefore, we need to translate our code bytecode.
+machine (EVM) that works as a Turing-complete virtual machine. The EVM can only understand bytecode. Therefore, we need to translate our code into bytecode.
 In the Ethereum white paper \cite{ethereum_white_paper}, Vitalik Buterin describes the code as follows:
 
 \begin{quote}
@@ -172,7 +179,7 @@ returns the output data of the code execution. During execution, the EVM has acc
 
 \begin{list}{-}{}
    \item \textbf{Stack}: The stack is a last-in-first-out (LIFO) data structure and has a depth of 1024 items. It is used to store local variables.
-   \item \textbf{Memory}: A byte array with a maximum size can represent the gas as a fuel of these of $2^{256} - 1$ bytes. The memory is used to store data.
+   \item \textbf{Memory}: A byte array representing the gas as a fuel  with the maximum size of $2^{256} - 1$ bytes. The memory is used to store data.
    \item \textbf{Storage}: A key-value store with a maximum size of $2^{256} - 1$ key-value pairs. The storage is used to store data permanently even after the end
          of the computation, unlike the stack and the memory.
 \end{list}
@@ -199,7 +206,7 @@ The Ethereum white paper \cite{ethereum_white_paper} describes the currency and 
 \end{quote}
 
 The currency of Ethereum is called \textit{ether} and is used to pay for transaction fees and computational services. The smallest unit
-of ether is called \textit{wei}. The denomination of ether is as follows:
+of ether is called \textit{wei}. The denomination of ether is as follows in Table \ref{tab:ether_denominations}:
 
 \begin{table}[H]
   \centering
@@ -309,7 +316,8 @@ and Ethereum is that in Bitcoin, the fees are paid per byte of data, whereas in 
 value represents the maximum amount of gas, meaning we cannot exceed a certain number of computational steps. Every transaction requires a limit of gas to prevent infinite loops, and each computational step costs a certain 
 amount of gas, typically one gas. However, some operations cost more due to their computational complexity or due to storage space.
 
-The fee is integral to each transaction and serves as a deterrent against spam attacks. Transactions requiring more resources will incur higher fees than those with fewer resources, making the fee proportional to the transaction size. The calculation of the transaction fee is demonstrated by the equation below.
+The fee is crucial for each transaction and serves as a mitigation against spam attacks. 
+Transactions requiring more resources will incur higher fees than those with fewer resources, making the fee proportional to the transaction size. The calculation of the transaction fee is demonstrated by the equation below.
 
 
 \begin{equation}
@@ -696,7 +704,7 @@ to a physical token in the real world, where a token can represent ownership rig
 \end{quote}
 
 
-We can illustrate the concept of a token with an example. First, let us consider an analogy for an IT Security convention like the DEF CON
+We can illustrate the concept of a token with an example. First, let us consider an analogy for an IT Security convention like the DEFCON
 \footnote{DEFCON is one of the world's largest hacker conventions, held annually in Las Vegas, Nevada.} convention. Imagine we attend
 the DEFCON convention, and as we enter the convention, we receive a special badge that gives us certain privileges. This badge
 is similar to a token because it allows us to access certain convention areas, participate in exclusive events, and receive certain benefits. However, in this case, the badge represents a value within the DEFCON convention, enabling us to engage
@@ -821,7 +829,7 @@ The listing \ref{lst:erc20_interface} shows the ERC20 interface in Solidity repr
 
 
 \begin{itemize}
-    \item \mintinline{solidity}|name()|: Returns the token's name as the name suggests. E.g. the name of \textit{Universal Export Token} is \texttt{Universal Export Token}.
+    \item \mintinline{solidity}|name()|: Returns the token's name as the name suggests. E.g. the name of \textit{UET} is \textit{Universal Export Token}.
     \item \mintinline{solidity}|symbol()|: Returns the token's symbol, usually a shorter name version. E.g. the symbol of \textit{Universal Export Token} is \texttt{UET}.
     \item \mintinline{solidity}|decimals()|: Returns the representation of the smallest fraction of a token because of the absence of floating-point numbers in Solidity. If \texttt{decimals} returns $2$, 
     a balance of 12345 tokens should be displayed to a user as $123.45$.
@@ -869,7 +877,7 @@ and does not affect the arithmetic of the token. A decimal value of 2 is usually
 
 
 The \texttt{allowance} method shows how many tokens Alice (owner) allows Bob (spender) to transfer on their behalf. This method takes two parameters: the owner's address and the spender's address. It returns the number of tokens the spender is authorized to spend on behalf of the owner.
-Listing \ref{lst:openzeppelin_allowance} exemplifies the implementation of the \texttt{allowance} function in the OpenZeppelin library.
+Listing \ref{lst:openzeppelin_allowance} shows the implementation of the \texttt{allowance} function in the OpenZeppelin library.
 Notably, this function is classified as a \texttt{view} function, which means that the state of the contract is not modified. Thus no gas is consumed during execution.
 The usage of the \texttt{virtual} keyword signifies that a child contract can override the function, offering flexibility for customization. Additionally, the \texttt{override} keyword indicates that the
 function overrides a corresponding function in the parent contract, ensuring the appropriate behavior and consistency within the contract hierarchy.
@@ -889,7 +897,7 @@ function allowance(address owner, address spender) public view virtual override 
 
 
 
-The \texttt{approve} method enables an owner, such as Alice, to grant permission to a spender, such as Bob, to transfer a specific quantity of tokens on their behalf. By invoking this method, the owner sets the allowance for Bob to the designated value.
+The \texttt{approve} method enables Alice (owner) to grant permission to Bob (spender) to transfer a specific quantity of tokens on their behalf. By invoking this method, the owner sets the allowance for Bob to the designated value.
 Listing \ref{lst:openzeppelin_approve} shows the implementation of the \texttt{approve} function in the OpenZeppelin library. 
 This function provides a standardized and secure approach for granting token transfer permissions.
 
@@ -924,7 +932,7 @@ The implementation shown in Listing \ref{lst:openzeppelin_approve} includes two 
 The zero address, denoted as \texttt{address(0)}, holds special significance in Ethereum. It represents the absence of an address and is utilized in various scenarios. By casting the integer 0 to a 20-byte address, the zero address is used for initializing address variables and verifying whether an address has been set. It is also called the \texttt{0x0} or \texttt{0x0} account.
 Furthermore, the zero address plays a role in burning tokens, where tokens sent to the zero address are permanently lost. Finally, it is employed for checking invalid addresses as well. For instance, to validate an address, one can compare it to the zero address. When both conditions are fulfilled, the method updates the spender's allowance to the provided value and emits an \texttt{Approval} event.
 
-The \texttt{transfer} method enables an owner, such as Alice, to initiate a transfer of a specified token amount to another address, such as Bob's address. This operation involves deducting the token quantity from Alice's balance and adding it to Bob's balance.
+The \texttt{transfer} method enables Alice (owner), to initiate a transfer of a specified token amount to another address, such as Bob's address. This operation involves deducting the token quantity from Alice's balance and adding it to Bob's balance.
 Listing \ref{lst:openzeppelin_transfer} presents the OpenZeppelin implementation of the \texttt{transfer} function. The function accepts two parameters: the recipient's address and the number of tokens to be transferred. It first verifies the validity of both the sender and recipient addresses. Subsequently, the method checks if the sender possesses a sufficient token balance for the transfer. If the sender holds an adequate amount of tokens, the function updates the balances of the sender and recipient accordingly and emits a \texttt{Transfer} event.
 
 \begin{listing}[!ht]
@@ -967,7 +975,7 @@ function _transfer(address from, address to, uint256 amount) internal virtual {
     \label{lst:openzeppelin_transfer}
 \end{listing}
 
-Finally, the \texttt{transferFrom} method facilitates the transfer of a specified token amount by a designated spender, such as Bob, on behalf of the token owner, Alice. Prior approval 
+Finally, the \texttt{transferFrom} method facilitates the transfer of a specified token amount by Bob (spender), on behalf of the token owner, Alice. Prior approval 
 from Alice is required, which is obtained through the \texttt{approve} method. This functionality allows the spender to transfer tokens between two addresses, providing a convenient 
 mechanism for delegated token transfers.
 
@@ -1127,8 +1135,7 @@ to the owner of the smart contract. This is useful for implementing administrati
 method are included in the \texttt{Ownable} contract. It also includes the methods like \texttt{mint} and \texttt{burn} that are not part of the ERC-20 standard but are commonly used in ERC-20 token implementations. The \texttt{mint} method allows
 the smart contract owner to mint new tokens, while the \texttt{burn} method allows the owner to burn tokens. These methods can be crucial for different use cases
 such as token distribution, token supply management, token burning to remove tokens from circulation permanently, etc. We gain access to these additional methods
-by inheriting from the \texttt{ERC20} and \texttt{ERC20Detailed} contracts. The \texttt{ERC20Detailed} contract provides the \texttt{name}, \texttt{symbol}, and \texttt{decimals} methods, which are used to
-provide information about the token. Another example is the \texttt{ERC20Capped} contract, which provides a way to cap the maximum supply of the token. This can be useful for
+by inheriting from the \texttt{ERC20} and \texttt{Ownable} contracts. Another example is the \texttt{ERC20Capped} contract, which provides a way to cap the maximum supply of the token. This can be useful for
 implementing a fixed supply token or for limiting the token's total supply to a certain amount.
 
 % ----------------------------------------------------------------------------- DONE DONE
@@ -1202,9 +1209,10 @@ the back-end from the decentralized world of Ethereum. With Web3.js, we can conn
 data, all within our front-end application using JavaScript.
 
 
-With Web3, we can develop dApps to connect our application to the Ethereum blockchain. For example, if we integrate Web3.js into our front-end application,
+We can develop dApps to connect our application to the Ethereum blockchain. For example, if we integrate Web3.js into our front-end application,
 we can allow a company to manage its supply chain using a dApp with direct access to the Ethereum network. Furthermore, it enables the company to
-interact with smart contracts, which means they can manage their digital assets, such as tokens,  and participate in the decentralized finance (DeFi) applications.
+interact with smart contracts, which means they can manage their digital assets, such as tokens,  and participate in the decentralized finance (DeFi)\footnote{\url{https://en.wikipedia.org/wiki/Decentralized_finance}}
+applications.
 
 
 Therefore, utilizing Web3.js in our front-end application unlocks the possibilities for our platform, including peer-to-peer payments, decentralized

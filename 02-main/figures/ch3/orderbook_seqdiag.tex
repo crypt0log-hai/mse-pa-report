@@ -12,10 +12,10 @@
 
             \begin{umlcall}[op={addBuy(100, 10)}, type=synchron, return=refresh buys, draw=RedOrange,fill=RedOrange!20,]{Alice}{Platform}
                 % Plateform -> Orderbook approve amount to transfer 100 * 10 = 1000 USDC
-                \begin{umlcall}[op={approve(Orderbook, 1000 USDC)}, type=synchron,return=approved, draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
+                \begin{umlcall}[op={approve(Orderbook, 1000)}, type=synchron,return=approved, draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
                 \end{umlcall}
                 % Platform -> Orderbook
-                \begin{umlcall}[op={addBuy(100 UET, 10 USDC)}, type=synchron, return=orderNo, draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
+                \begin{umlcall}[op={addBuy(100, 10)}, type=synchron, return=orderNo, draw=SkyBlue,fill=SkyBlue!20]{Platform}{Orderbook}
 
                     % Orderbook -> Orderbook update buys list
                     \begin{umlcallself}[op={update Buys}, type=synchron,draw=ForestGreen,fill=ForestGreen!20]{Orderbook}
@@ -55,7 +55,7 @@
                     \end{umlcall}
 
                     % Platform -> Platform verify match buy order
-                    \begin{umlcallself}[op={checkBuyMatch(100 UET, 10 USDC)}, type=synchron, return=true, dt=5, draw=RedOrange,fill=RedOrange!20]{Platform}
+                    \begin{umlcallself}[op={checkBuyMatch(100, 10)}, type=synchron, return=true, dt=5, draw=RedOrange,fill=RedOrange!20]{Platform}
                     \end{umlcallself}
 
                     % Platform -> Orderbook call trade(1, 100, 10, 1), return amount, price, trader
